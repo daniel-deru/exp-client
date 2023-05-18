@@ -1,0 +1,38 @@
+.signup {
+    height: 80vh;
+    padding-top: 2rem;
+    user-select: none;
+    
+    form > div {
+        width: 80%;
+        margin: 20px auto;
+        padding: 10px;
+        position: relative;
+
+        :global .eye {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 1.25em;
+            cursor: pointer;
+        }
+    
+        :global .error {
+            position: absolute;
+            bottom: 45px;
+            color: red;
+        }
+    }
+    
+    input {
+        width: 100%;
+        padding: 4px;
+        border-bottom: 2px solid black;
+        outline: none;
+        background-color: transparent;
+    
+        &:focus {
+            border-bottom: 2px solid rgb(134 239 172);
+        }
+    }
+}
