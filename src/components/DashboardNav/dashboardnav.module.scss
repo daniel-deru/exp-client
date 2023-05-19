@@ -1,0 +1,21 @@
+
+.dashboard {
+    margin: 1rem;
+    width: 15%;
+
+    nav {
+        height: 86vh;
+
+        ul {
+            li {
+                padding: 1rem 0rem;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #10b981;
+                    color: white;
+                }
+            }
+        }
+    }
+}

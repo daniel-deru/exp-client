@@ -1,0 +1,16 @@
+
+.tiles {
+    width: 81vw;
+    height: 25vh;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+
+    > div {
+        background-color: bisque;
+        width: 20%;
+        border-radius: 1rem;
+        padding: 1rem;
+        text-align: center;
+    }
+}
