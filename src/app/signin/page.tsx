@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
+import { useRouter } from "next/navigation"
 import { Formik, Form, ErrorMessage, Field } from 'formik'
 import * as yup from "yup"
 import styles from "../signup/styles.module.scss"
@@ -27,6 +28,7 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
 
+  const router = useRouter()
 
   async function onSubmit(values: IInitialValues){
     const response = await call<{access_token: string}>('/user/signin', "POST", values)
@@ -34,6 +36,8 @@ const Signin = () => {
     if(response.error) return setError(response.message)
     
     setToken(response.data.access_token)
+
+    router.push("/dashboard")
 
   }
 

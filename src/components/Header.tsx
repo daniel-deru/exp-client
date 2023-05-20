@@ -3,9 +3,9 @@ import { FaSearch, FaUserCircle } from "react-icons/fa"
 
 const Header = () => {
   return (
-    <header className='pt-4 h-12 flex justify-between'>
-        <div className="bg-slate-100 p-2 rounded-3xl flex items-center w-1/4">
-          <FaSearch className="mr-2 text-slate-400"/>
+    <header className='h-12 flex justify-end items-center mt-4'>
+        <div className="bg-stone-200 p-2 rounded-3xl flex items-center w-4/12 mr-4">
+          <FaSearch className="mr-2"/>
           <input type="text" placeholder="Search Something..." className="bg-transparent w-full outline-none"/>
         </div>
         <div className="flex items-center">

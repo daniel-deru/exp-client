@@ -1,10 +1,12 @@
+@use '../../styles/colors' as colors;
+// $blue: #0ea5e9;
 
 .dashboard {
     margin: 1rem;
     width: 15%;
 
     nav {
-        height: 86vh;
+        height: 85vh;
 
         ul {
             li {
@@ -12,8 +14,14 @@
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #10b981;
-                    color: white;
+                    background-color: colors.$blue-xlight;
+                    color: black;
+                }
+
+                &:hover:first-child {
+                    background-color: colors.$blue-xlight;
+                    border-top-left-radius: 0.75rem;
+                    border-top-right-radius: 0.75rem;
                 }
             }
         }

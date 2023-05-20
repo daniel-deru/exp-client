@@ -3,8 +3,8 @@ import styles from "./dashboardnav.module.scss"
 const DashboardNav = () => {
   return (
     <aside className={styles.dashboard}>
-        <h1 className="h-12 text-center">Logo</h1>
-        <nav className="bg-gray-200 text-center rounded-xl pt-8">
+        <h1 className="h-12 text-center leading-10">Logo</h1>
+        <nav className="bg-stone-500 text-white text-center rounded-xl mt-4">
             <ul className="">
                 <li>Dashboard</li>
                 <li>Activities</li>

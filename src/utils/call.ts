@@ -1,10 +1,11 @@
 import { AxiosError, AxiosResponse } from "axios"
 import axios from "../axios.config"
+import { getToken } from "./token"
 
 type Method = "POST" | "GET" | "DELETE" | "PATCH" | "PUT" 
 type CallResponse<T> = { error: false, data: T } | {error: true, message: string }
 
-export async function call<T = any, S = any>(endpoint: string, method: Method, payload: S): Promise<CallResponse<T>> {
+export async function call<T = any, S = any>(endpoint: string, method: Method, payload?: S): Promise<CallResponse<T>> {
     try {
         let request: AxiosResponse<T>
 
