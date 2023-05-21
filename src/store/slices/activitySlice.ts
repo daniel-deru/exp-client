@@ -3,6 +3,21 @@ import type { PayloadAction } from "@reduxjs/toolkit/dist/createAction"
 import type { RootState } from "../store"
 
 export type Status = "Pending" | "Active" | "Finished" | "Cancelled"
+export type ItemType = "Product" | "Service"
+
+export interface Item {
+    id: string
+    price: number
+    name: string
+    planned: boolean
+    paid: boolean
+    quantity: number
+    type: ItemType
+    tag?: string
+    description?: string
+    activityId: string
+    userId: string
+}
 
 export interface Activity {
     id: string
@@ -17,6 +32,7 @@ export interface Activity {
     endTime?: string
     tag?: string
     userId: string
+    items: Item[]
 }
 
 const initialState: Activity[] = []

@@ -1,0 +1,11 @@
+@use "../../styles/colors" as colors;
+
+.activities {
+    :global .activityList {
+        > div {
+            > div {
+                width: 20%;
+            }
+        }
+    }
+}

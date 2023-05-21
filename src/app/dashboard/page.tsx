@@ -18,8 +18,8 @@ const Dashboard = () => {
   const dispatch = useAppDispatch()
 
   async function fetchActivities(){
-    const activities = await call("/activity/all", "GET")
-
+    const activities = await call("/activity/all?includeItems=true", "GET")
+    console.log(activities)
     if(activities.error) return activities.error
 
     dispatch(setActivitiesAction(activities.data))
@@ -37,13 +37,9 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div className="flex">
-        <DashboardNav />
-        <div>
-          <Header />
+    <div>
           <Tiles />
           <ActivityList />
-        </div>
     </div>
   )
 }

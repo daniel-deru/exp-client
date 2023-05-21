@@ -34,7 +34,7 @@ const Signin = () => {
     const response = await call<{access_token: string}>('/user/signin', "POST", values)
 
     if(response.error) return setError(response.message)
-    
+    console.log(response.data.access_token)
     setToken(response.data.access_token)
 
     router.push("/dashboard")
