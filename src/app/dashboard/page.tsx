@@ -7,9 +7,7 @@ import { useAppDispatch } from "@/store/hooks"
 import { selectActivities, setActivities as setActivitiesAction } from "@/store/slices/activitySlice"
 import { call } from "@/utils/call"
 
-import DashboardNav from "@/components/DashboardNav/DashboardNav"
 import Tiles from "@/components/Tiles/Tiles"
-import Header from "@/components/Header"
 import ActivityList from "@/components/ActivityList"
 
 const Dashboard = () => {
@@ -30,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchActivities()
     const token = getToken()
-
+    console.log(getToken())
     if(!token) router.push("/signin")
     else if(token) router.push('/dashboard')
 
@@ -39,7 +37,23 @@ const Dashboard = () => {
   return (
     <div>
           <Tiles />
-          <ActivityList />
+          <section className="flex justify-between mt-4">
+            <div className="w-7/12">
+              <div className="flex items-center">
+                <div className="text-xl">Recent Activities</div>
+                <button className="ml-4 bg-teal-500 py-1 px-4 rounded-md text-white">Add New</button>
+              </div>
+              <ActivityList />
+            </div>
+            <div className="mx-4 w-4/12">
+              <div className="flex items-center">
+                <div className="text-xl">Shopping Items</div>
+                <button  className="ml-4 bg-teal-500 py-1 px-4 rounded-md text-white">Add New</button>
+              </div>
+            </div>
+          </section>
+
+
     </div>
   )
 }

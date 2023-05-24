@@ -2,7 +2,7 @@
 // $blue: #0ea5e9;
 
 .dashboard {
-    margin: 1rem;
+    margin: 0px 1rem;
     width: 15%;
 
     nav {
@@ -18,12 +18,11 @@
                 }
 
                 &:hover {
-                    background-color: colors.$blue-xlight;
-                    color: black;
+                    background-color: colors.$blue-dark;
+                    color: white;
                 }
 
                 &:hover:first-child {
-                    background-color: colors.$blue-xlight;
                     border-top-left-radius: 0.75rem;
                     border-top-right-radius: 0.75rem;
                 }

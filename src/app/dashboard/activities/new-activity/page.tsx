@@ -40,7 +40,7 @@ const newActivity: React.FC = () => {
 
         if(response.error) return console.log(response.message)
 
-        router.push('/activities')
+        router.push('/dashboard/activities')
     }
 
     return (

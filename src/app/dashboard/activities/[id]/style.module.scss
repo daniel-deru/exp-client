@@ -1,0 +1,80 @@
+@use "@/styles/colors" as colors;
+
+.itemForm {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+        input, select {
+            background-color: rgb(230, 230, 230);
+            width: 100%;
+            padding: 4px;
+            outline: none;
+            border-radius: 20px;
+            padding-left: 10px;
+            border: 2px solid transparent;
+
+            &:focus {
+                background-color: transparent;
+                border: 2px solid colors.$blue;
+            }
+        }
+
+        button {
+            width: 100%;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            background-color: colors.$blue;
+            padding: 5px 0px;
+
+            &:hover, &:focus {
+                box-shadow: 0px 0px 10px 0px colors.$blue ;
+            }
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        &:nth-child(1){
+            width: 25%; // Name
+        }
+        &:nth-child(2){
+            width: 10%; // Price
+        }
+        &:nth-child(3){
+            width: 7%; // Quantity
+        }
+        &:nth-child(4){
+            width: 7%; // Paid
+        }
+        &:nth-child(5){
+            width: 10%; // Type
+        }
+        &:nth-child(6){
+            width: 15%; // Tag
+        }
+        &:nth-child(7){
+            width: 10%; // Button
+        }
+
+    }
+}
+
+.itemList {
+    margin-right: 1rem;
+    height: 50vh;
+    overflow-y: scroll;
+
+    li {
+        padding: 5px 0px;
+        // box-shadow: 0px 0px 5px colors.$blue-light;
+        border-bottom: 2px solid colors.$blue;
+        margin: 5px 0px;
+
+        div {
+            width: 20%;
+        }
+    }
+}

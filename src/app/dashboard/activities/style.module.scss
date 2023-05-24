@@ -1,6 +1,7 @@
-@use "../../styles/colors" as colors;
+@use "@/styles/colors" as colors;
 
 .activities {
+    width: 85vw; 
     :global .activityList {
         > div {
             > div {

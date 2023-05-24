@@ -46,11 +46,19 @@ export const activitySlice = createSlice({
             state = action.payload
 
             return state
+        },
+        addItem: (state: Activity[], action: PayloadAction<{activityId: string, item: Item}>) => {
+            return state.map((activity: Activity) => {
+                if(activity.id === action.payload.activityId){
+                    activity.items.push(action.payload.item)
+                }
+                return activity
+            })
         }
     }
 })
 
-export const { setActivities } = activitySlice.actions
+export const { setActivities, addItem } = activitySlice.actions
 
 export const selectActivities = (state: RootState) => state.activities
 
