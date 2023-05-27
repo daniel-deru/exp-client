@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 
 import DashboardNav from '@/components/DashboardNav/DashboardNav'
-import Header from '@/components/Header'
+import Header from '@/components/Header/Header'
 import { call } from '@/utils/call'
 import { setActivities } from '@/store/slices/activitySlice'
 import { useAppDispatch } from '@/store/hooks'
