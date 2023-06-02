@@ -1,0 +1,10 @@
+@use "@/styles/colors" as colors;
+
+.listItem {
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected {
+    background-color: colors.$blue-xlight;
+}

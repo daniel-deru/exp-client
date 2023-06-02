@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useAppSelector } from '@/store/hooks'
-import { Activity, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, Item, selectActivities } from '@/store/slices/activitySlice'
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
@@ -11,6 +11,7 @@ import ItemList from '@/components/ItemList'
 const activityPage: React.FC = () => {
 
     const [activity, setActivity] = useState<Activity>()
+    const [items, setItems] = useState<Item[]>([])
     const pathname = usePathname()
     const activities = useAppSelector(selectActivities)
 
@@ -24,6 +25,7 @@ const activityPage: React.FC = () => {
         const activity = activities.filter((activity) => activity.id === id)
 
         setActivity(activity[0])
+        setItems(activity[0]?.items || [])
 
     }, [activities, activity])
 
@@ -37,10 +39,10 @@ const activityPage: React.FC = () => {
             </div>
             <section>
                 <div className='mr-4'>
-                    <ItemForm activity={activity}/>
+                    <ItemForm activity={activity} setItems={setItems}/>
                 </div>
                 <h2 className='mt-4'>Items</h2>
-               <ItemList items={activity?.items || []}/>
+               <ItemList items={items} setItems={setItems}/>
             </section>
         </div>
     )

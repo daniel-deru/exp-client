@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit"
 import activitySlice from "./slices/activitySlice"
+import shoppingListSelectedSlice  from "./slices/shoppingListSelected"
+import errorSlice from "./slices/errorSlice"
 
 
 export const store = configureStore({
     reducer: {
-        activities: activitySlice
+        activities: activitySlice,
+        shoppingListSelected: shoppingListSelectedSlice,
+        error: errorSlice
     }
 })
 

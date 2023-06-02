@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/store/hooks'
-import { Activity, addItem } from '@/store/slices/activitySlice'
+import { Activity, Item, addItem } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
 import { Field, Form, Formik } from 'formik'
 import React from 'react'
@@ -17,39 +17,47 @@ const validationSchema = yup.object().shape({
 const initialValues = {
     name: "",
     price: "",
-    quantity: "",
+    quantity: "1",
     paid: "No",
     type: "Product",
     tag: ""
 }
 
 interface Props {
-    activity: Activity | undefined
+    activity: Activity | undefined,
+    setItems: React.Dispatch<React.SetStateAction<Item[]>>
 }
 
-const ItemForm: React.FC<Props> = ({ activity }) => {
+const ItemForm: React.FC<Props> = ({ activity, setItems }) => {
 
     const dispatch = useAppDispatch()
 
-    async function createItem(values: typeof initialValues){
+    async function createItem(values: typeof initialValues, { resetForm }: any){
 
+        
         const paid = values.paid === "Yes" ? true : false
         const quantity = parseInt(values.quantity)
         const price = parseFloat(values.price)
 
         const activityId = activity?.id ? activity.id : ""
 
-        const response = await call("/item/create/" + activityId, "POST", {...values, paid, quantity, price})
+        const response = await call<Item>("/item/create/" + activityId, "POST", {...values, paid, quantity, price})
+
         
         if(response.error) {
             // display error and return from function
+            return
       
-        } else {
+        } 
+        setItems(prevItems => [...prevItems, response.data])
+
+        if(activityId) {
             dispatch(addItem({
                 activityId,
                 item: response.data
             }))
         }
+        resetForm({values: ""})
     }
 
 
@@ -72,7 +80,7 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
                         </div>
                         <div>
                             <div>Quantity</div>
-                            <Field name="quantity" value={values.quantity} onChange={handleChange}/>
+                            <Field type="number" min={1} name="quantity" value={values.quantity} onChange={handleChange}/>
                         </div>
                         <div>
                             <div>Paid</div>

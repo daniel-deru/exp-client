@@ -5,8 +5,11 @@ import { Formik, ErrorMessage, Form, Field } from 'formik'
 import * as yup from "yup"
 import form from "@/styles/form.module.scss"
 import { call } from '@/utils/call'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import styles from "./newActivity.module.scss"
+import { selectShoppingListSelected } from '@/store/slices/shoppingListSelected'
+import { useAppSelector } from '@/store/hooks'
+import { Activity } from '@/store/slices/activitySlice'
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Required"),
@@ -29,19 +32,31 @@ const newActivity: React.FC = () => {
     const [showOptional, setShowOptional] = useState<boolean>(false)
 
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const selectedItems = useAppSelector(selectShoppingListSelected)
 
     async function onSubmit(values: typeof initialValues){
 
         const datePlanned = new Date(values.datePlanned).toISOString()
+        const withItems = searchParams.get("withItems")
 
-        console.log(datePlanned)
-
-        const response = await call("/activity/create", "POST", {...values, datePlanned})
+        const response = await call<Activity>("/activity/create", "POST", {...values, datePlanned})
 
         if(response.error) return console.log(response.message)
+        
+        if(withItems){
+            const addItemsResponse = await call(`items/create/${response.data.id}`, "POST", selectedItems)
+
+            if(addItemsResponse.error) return console.log(addItemsResponse.message)
+
+        }
 
         router.push('/dashboard/activities')
     }
+
+    useEffect(() => {
+       
+    }, [])
 
     return (
         <main className={styles.newActivity}>

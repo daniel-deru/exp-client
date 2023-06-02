@@ -54,11 +54,16 @@ export const activitySlice = createSlice({
                 }
                 return activity
             })
+        },
+        deleteActivity: (state: Activity[], action: PayloadAction<Activity>) => {
+            return state.filter((activity: Activity) => {
+                return activity.id !== action.payload.id
+            })
         }
     }
 })
 
-export const { setActivities, addItem } = activitySlice.actions
+export const { setActivities, addItem, deleteActivity } = activitySlice.actions
 
 export const selectActivities = (state: RootState) => state.activities
 

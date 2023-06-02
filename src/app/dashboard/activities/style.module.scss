@@ -2,11 +2,35 @@
 
 .activities {
     width: 85vw; 
+    margin-right: 1rem;
     :global .activityList {
-        > div {
+        
+        > div:first-child {
+            width: 90%;
             > div {
                 width: 20%;
             }
         }
+
+        > div:not(:first-child):hover {
+            background-color: colors.$blue-xlight;
+        }
+
+        :global .dataContainer {
+            width: 90%;
+            cursor: pointer;
+            div {
+                width: 20%;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        :global .buttonContainer {
+            width: fit-content;
+        }
     }
+
+
 }

@@ -1,0 +1,17 @@
+.modalOn {
+    display: block;
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 20;
+}
+
+.modalOff {
+    display: none;
+}
+
+.cover {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(26, 26, 26, 0.75);
+}
