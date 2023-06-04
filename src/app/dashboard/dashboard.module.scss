@@ -1,0 +1,54 @@
+@use "@/styles/colors" as colors;
+
+
+@media screen and (max-width: 1000px) {
+    .home {
+        section > div:first-child {
+            width: 50%;
+        }
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .home section > div:first-child {
+        width: 50%;
+    }
+
+    .shoppingList {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 680px) {
+    .home section  {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .home section > div:first-child {
+        width: 100%;
+    }
+
+    .shoppingList {
+        width: 100%;
+    }
+
+
+}
+@media screen and (max-width: 450px) {
+    .home {
+        margin: auto;
+    }
+
+    .home section > div:first-child {
+        width: 95%;
+        margin: auto;
+    }
+
+    .shoppingList {
+        width: 95%;
+        margin: auto;
+    }
+
+}
+

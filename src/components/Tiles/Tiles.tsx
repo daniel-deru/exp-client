@@ -50,11 +50,11 @@ const Tiles = () => {
                 <div className="data">{activities.length}</div>
             </div>
             <div className="items-p-activity">
-                <div>Average Items Per Activity</div>
+                <div>Avg Items</div>
                 <div className="data">{avgItemPerActivity()}</div>
             </div>
             <div className="spent-p-activity">
-                <div>Average Spent Per Activity</div>
+                <div>Avg Spent</div>
                 <div className="data">{(totalSpent()/activities.length).toFixed(0)}</div>
             </div>
         </div>

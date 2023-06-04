@@ -19,3 +19,8 @@
   background: colors.$blue;
   border-radius: 10px;
 }
+
+html, body {
+  width: 100vw;
+  overflow-x: hidden;
+}

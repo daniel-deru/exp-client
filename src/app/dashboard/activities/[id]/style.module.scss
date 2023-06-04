@@ -1,20 +1,23 @@
 @use "@/styles/colors" as colors;
 
-
+.activity {
+    width: 100%;
+}
 
 .itemList {
     margin-right: 1rem;
     height: 50vh;
     overflow-y: scroll;
-
-    li {
-        padding: 5px 0px;
-        // box-shadow: 0px 0px 5px colors.$blue-light;
-        border-bottom: 2px solid colors.$blue;
-        margin: 5px 0px;
-
-        div {
-            width: 20%;
-        }
-    }
 }
+
+.itemList li {
+    padding: 5px 0px;
+    border-bottom: 2px solid colors.$blue;
+    margin: 5px 0px; 
+}
+
+.itemList li div {
+    width: 20%;
+}
+
+

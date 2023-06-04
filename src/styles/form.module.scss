@@ -4,31 +4,46 @@
     width: 40vw;
     margin: auto;
     margin-top: 1rem;
+}
 
-    h1 {
-        font-weight: bold;
+.form h1 {
+    font-weight: bold;
+}
+
+.form > div {
+    margin: 1rem 0px;
+}
+
+.form > div label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form > div input {
+    border: 2px solid colors.$blue-dark;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form > div input:focus {
+    border: 2px solid transparent;
+    background-color: colors.$blue-xlight;
+}
+
+@media screen and (max-width: 800px) {
+    .form {
+        width: 90%;
     }
+}
 
-    > div {
-        margin: 1rem 0px;
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input {
-            border: 2px solid colors.$blue-dark;
-            padding: 5px;
-            width: 100%;
-            border-radius: 5px;
-            outline: none;
-
-            &:focus {
-                border: 2px solid transparent;
-                background-color: colors.$blue-xlight;
-            }
-        }
-    
+@media screen and (max-width: 450px) {
+    .form {
+        margin: auto;
     }
+}
+
+@media screen and (max-width: 450px) {
 
 }

@@ -1,0 +1,38 @@
+@use "@/styles/colors" as colors;
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+
+.header > div > div:first-child {
+    display: flex;
+    margin-right: 1rem;
+    align-items: center;
+    border-radius: 20px;
+    width: 50%;
+    background-color: colors.$gray-xlight;
+}
+
+@media screen and (max-width: 600px) {
+    .header > div {
+        width: fit-content;
+    }
+    
+    .header > div > div:first-child {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .header > div:last-child {
+        display: block;
+    }
+
+    .header > div:nth-child(2) {
+        display: none;
+    }
+}

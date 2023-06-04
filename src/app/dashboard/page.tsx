@@ -6,6 +6,7 @@ import { getToken } from "@/utils/token"
 import { useAppDispatch } from "@/store/hooks"
 import { selectActivities, setActivities as setActivitiesAction } from "@/store/slices/activitySlice"
 import { call } from "@/utils/call"
+import styles from "./dashboard.module.scss"
 
 import Tiles from "@/components/Tiles/Tiles"
 import ActivityList from "@/components/ActivityList"
@@ -35,25 +36,23 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div>
-          <Tiles />
-          <section className="flex justify-between mt-4">
-            <div className="w-7/12">
-              <div className="flex items-center">
-                <div className="text-xl">Recent Activities</div>
-                <button className="ml-4 bg-teal-500 py-1 px-4 rounded-md text-white">Add New</button>
-              </div>
-              <ActivityList />
-            </div>
-            <div className="mx-4 w-4/12">
-              <div className="flex items-center">
-                <div className="text-xl">Shopping Items</div>
-                <button  className="ml-4 bg-teal-500 py-1 px-4 rounded-md text-white">Add New</button>
-              </div>
-            </div>
-          </section>
-
-
+    <div className={styles.home}>
+      <Tiles />
+      <section className="flex justify-between mt-4">
+        <div className="w-7/12">
+          <div className="flex items-center w-full justify-start">
+            <div className="text-xl">Recent Activities</div>
+            <button className="bg-teal-500 py-1 px-4 rounded-md text-white ml-2">Add New</button>
+          </div>
+          <ActivityList />
+        </div>
+        <div className={`mx-4 w-4/12 ${styles.shoppingList}`}>
+          <div className="flex items-center w-full">
+            <div className="text-xl">Shopping Items</div>
+            <button  className="bg-teal-500 py-1 px-4 rounded-md text-white ml-2">Add New</button>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

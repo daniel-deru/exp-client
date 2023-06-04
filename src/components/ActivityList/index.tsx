@@ -19,7 +19,7 @@ const ActivityList: React.FC<Props> = ({ getActivity }) => {
               onClick={() => getActivity ? getActivity(activity) : null}
               key={activity.id}
             >
-              <div>{activity.name}</div>
+              <div className="truncate">{activity.name}</div>
               <div>{activity.items.length}</div>
               <div></div>
               <div>{activity.status}</div>

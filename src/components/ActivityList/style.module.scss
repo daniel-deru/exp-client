@@ -2,3 +2,11 @@
 .activityList {
     margin-top: 1rem;
 }
+
+.activityList section > div > div {
+    width: 30%;
+}
+
+@media screen and (max-width: 680px) {
+    
+}

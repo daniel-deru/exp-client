@@ -31,7 +31,7 @@ const ItemList: React.FC<Props> = ({ items, setItems }) => {
             <li className='flex justify-between' key={item.id}>
                 <div>{item?.name}</div>
                 <div>{item?.price * item?.quantity}</div>
-                <div>{item?.paid ? "Paid" : "Not Paid"}</div>
+                <div className={styles.paid}>{item?.paid ? "Paid" : "Not Paid"}</div>
                 <div><button>Edit</button></div>
                 <div className="text-right text-red-500 text-xl">
                   <button onClick={() => deleteItem(item)}><FaRegTimesCircle/></button>

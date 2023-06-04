@@ -3,68 +3,129 @@
 .itemForm {
     display: flex;
     justify-content: space-between;
+}
 
-    div {
-        display: flex;
-        flex-direction: column;
-        
-        div {
-            height: 2rem;
-        }
+.itemForm div {
+    display: flex;
+    flex-direction: column;
+}
 
-        input, select {
-            background-color: rgb(230, 230, 230);
-            width: 100%;
-            padding: 4px;
-            outline: none;
-            border-radius: 20px;
-            padding-left: 10px;
-            border: 2px solid transparent;
+.itemForm div:nth-child(1){
+    width: 25%; // Name
+}
 
-            &:focus {
-                background-color: transparent;
-                border: 2px solid colors.$blue;
-            }
-        }
+.itemForm div:nth-child(2){
+    width: 10%; // Price
+}
 
-        button {
-            width: 100%;
-            outline: none;
-            border-radius: 20px;
-            color: white;
-            background-color: colors.$blue;
-            padding: 5px 0px;
+.itemForm div:nth-child(3){
+    width: 7%; // Quantity
+}
 
-            &:hover, &:focus {
-                box-shadow: 0px 0px 10px 0px colors.$blue ;
-            }
-        }
+.itemForm div:nth-child(4){
+    width: 7%; // Paid
+}
 
-        select {
-            cursor: pointer;
-        }
+.itemForm div:nth-child(5){
+    width: 10%; // Type
+}
 
-        &:nth-child(1){
-            width: 25%; // Name
-        }
-        &:nth-child(2){
-            width: 10%; // Price
-        }
-        &:nth-child(3){
-            width: 7%; // Quantity
-        }
-        &:nth-child(4){
-            width: 7%; // Paid
-        }
-        &:nth-child(5){
-            width: 10%; // Type
-        }
-        &:nth-child(6){
-            width: 15%; // Tag
-        }
-        &:nth-child(7){
-            width: 10%; // Button
-        }
+.itemForm div:nth-child(6){
+    width: 15%; // Tag
+}
 
+.itemForm div:nth-child(7){
+    width: 10%; // Button
+}
+
+.itemForm div div {
+    height: 2rem;
+}
+
+.itemForm div input, .itemForm div select {
+    background-color: rgb(230, 230, 230);
+    width: 100%;
+    padding: 4px;
+    outline: none;
+    border-radius: 20px;
+    padding-left: 10px;
+    border: 2px solid transparent;
+
+    &:focus {
+        background-color: transparent;
+        border: 2px solid colors.$blue;
+    }
+}
+
+.itemForm div button {
+    width: 100%;
+    outline: none;
+    border-radius: 20px;
+    color: white;
+    background-color: colors.$blue;
+    padding: 5px 0px;
+
+    &:hover, &:focus {
+        box-shadow: 0px 0px 10px 0px colors.$blue ;
+    }
+}
+
+.itemForm div select {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+    .itemForm {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1rem;
+    }
+
+    .itemForm div:nth-child(1){
+        width: 100%; // Name
+    }
+    
+    .itemForm div:nth-child(2){
+        width: 100%; // Price
+    }
+    
+    .itemForm div:nth-child(3){
+        width: 100%; // Quantity
+    }
+    
+    .itemForm div:nth-child(4){
+        width: 100%; // Paid
+    }
+    
+    .itemForm div:nth-child(5){
+        width: 100%; // Type
+    }
+    
+    .itemForm div:nth-child(6){
+        width: 100%; // Tag
+    }
+    
+    .itemForm div:nth-child(7){
+        width: 100%; // Button
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .itemForm {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .itemForm {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+    }
+
+    .itemForm .paid {
+        display: none;
     }
 }

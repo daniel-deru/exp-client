@@ -22,3 +22,31 @@
 .hide {
     display: none;
 }
+
+@media screen and (max-width: 450px) {
+    .newActivity {
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .newActivity {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .newActivity {
+        width: 100%;
+    }
+
+    .buttonContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}

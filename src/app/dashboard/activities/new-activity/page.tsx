@@ -88,7 +88,7 @@ const newActivity: React.FC = () => {
                             <label htmlFor="tag">Tag</label>
                             <Field name="tag" value={values.tag} onChange={handleChange}/>
                         </div>
-                        <div className='flex justify-between'>
+                        <div className={`flex justify-between ${styles.buttonContainer}`}>
                             <button 
                                 type='button' 
                                 className={styles.button}

@@ -1,29 +1,71 @@
 @use '../../styles/colors' as colors;
 
 .tiles {
-    width: 81vw;
+    width: 80vw;
     height: 25vh;
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
+    margin-right: 2rem;
+}
 
-    > div {
-        width: 24%;
-        border-radius: 1rem;
-        padding: 1rem;
-        text-align: center;
-        background-color: colors.$blue-dark;
-        color: white;
-        display: flex;
-        flex-direction: column;
+.tiles > div {
+    width: 24%;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: colors.$blue-dark;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
 
-        :global .data {
-            font-size: 2em;
-            flex: 4;
-        }
+.tiles > div .data {
+    font-size: 2em;
+    margin-top: 1rem;
+}
 
-        div:first-child {
-            flex: 2;
-        }
+@media screen and (max-width: 1000px) {
+    .tiles {
+        width: 90vw;
+
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .tiles {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       grid-gap: 1rem;
+       margin-right: 0px;
+    }
+
+    .tiles > div {
+        width: 95%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+       
+    }
+
+    .tiles > div > div:last-child  {
+        font-size: 1em;
+        margin-top: 0px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .tiles {
+       display: flex;
+       flex-direction: column;
+       height: fit-content;
+       width: 95%;
+       margin: 1rem auto;
+    }
+
+    .tiles > div {
+        padding: 0.5rem;
+        border-radius: 10px;
+        width: 100%;
     }
 }

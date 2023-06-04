@@ -6,7 +6,7 @@ import { selectActivities, Activity, deleteActivity } from "@/store/slices/activ
 import styles from "./style.module.scss"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { FaTimesCircle } from "react-icons/fa"
+import { FaTimesCircle, FaRegTimesCircle } from "react-icons/fa"
 import { call } from "@/utils/call"
 
 
@@ -49,26 +49,30 @@ const activities = () => {
                 <span>Activities</span>
                 <button><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
             </div>
-            <div className="activityList">
-                <div className="flex justify-between my-3">
-                    <div>Name</div>
-                    <div>Status</div>
-                    <div>Items</div>
-                    <div>Total</div>
+            <div className={styles.activityList}>
+                <div >
+                    <div >
+                        <div className={styles.name}>Name</div>
+                        <div className={styles.status}>Status</div>
+                        <div className={styles.items}>Items</div>
+                        <div>Total</div>
+                    </div>
                 </div>
                 {activities.map((activity: Activity) => (
-                    <div className="flex justify-between mb-4 shadow-md items-center" key={activity.id} >
-                        <div className="flex justify-between dataContainer items-center" onClick={() => goToActivityPage(activity.id)}>
-                            <div>{activity.name}</div>
-                            <div>{activity.status}</div>
-                            <div>{activity.items.length}</div>
+                    <div key={activity.id} >
+                        <div onClick={() => goToActivityPage(activity.id)}>
+                            <div className={styles.name}>{activity.name}</div>
+                            <div className={styles.status}>{activity.status}</div>
+                            <div className={styles.items}>{activity.items.length}</div>
                             <div>{activityTotal(activity)}</div>
                         </div>
-                        <div className="buttonContainer">
-                            <button className="text-red-500 text-xl mx-4 p-2" onClick={() => removeActivity(activity)}>
-                                <FaTimesCircle/>
+                        <div>
+                            <button onClick={() => removeActivity(activity)}>
+                                <FaRegTimesCircle/>
                             </button>
                         </div>
+
+
                     </div>
                 ))}
             </div>

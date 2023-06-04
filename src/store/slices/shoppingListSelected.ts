@@ -3,25 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit/dist/createAction"
 import type { RootState } from "../store"
 import { Item } from "./activitySlice"
 
-export type ItemType = "Product" | "Service"
-
-// export interface Item {
-//     id: string
-//     price?: number
-//     name: string
-//     planned: boolean
-//     paid: boolean
-//     quantity: number
-//     type: ItemType
-//     tag?: string
-//     description?: string
-//     activityId?: string
-//     userId: string
-// }
-
-
 const initialState: Item[] = []
-
 
 export const shoppingListSelectedSlice = createSlice({
     name: "shoppingListSelected",

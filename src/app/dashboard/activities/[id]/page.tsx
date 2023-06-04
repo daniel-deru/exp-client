@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useAppSelector } from '@/store/hooks'
 import { Activity, Item, selectActivities } from '@/store/slices/activitySlice'
+import styles from "./style.module.scss"
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
@@ -30,7 +31,7 @@ const activityPage: React.FC = () => {
     }, [activities, activity])
 
     return (
-        <div style={{width: "85vw"}}>
+        <div className={styles.activity}>
             <h1 className='text-2xl my-4'>{activity?.name}</h1>
             <p>{activity?.description}</p>
             <div className='flex justify-around my-4'>
