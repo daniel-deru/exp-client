@@ -11,23 +11,16 @@ import ChooseActivityModal from '@/components/Modals/ChooseActivity'
 import { useRouter } from 'next/navigation'
 import { selectShoppingListSelected,  } from '@/store/slices/shoppingListSelected'
 import { useAppSelector } from '@/store/hooks'
+import { selectItems } from '@/store/slices/itemSlice'
 
 const shopping = () => {
-  const [items, setItems] = useState<Item[]>([])
   const [showActivityList, setShowActivityList] = useState<boolean>(false)
+  const [itemsNoActivity, setItemsNoActivity] = useState<Item[]>([])
 
   const router = useRouter()
   const selectedItems = useAppSelector(selectShoppingListSelected)
+  const items = useAppSelector(selectItems)
 
-  const fetchItems = useCallback(async () => {
-    const response = await call("/item/all", "GET")
-
-    if(response.error) return console.log(response.message)
-
-    const itemsNoActivity = response.data.filter((item: Item) => !item.activityId)
-
-    setItems(itemsNoActivity)
-  }, [])
 
   function newActivity(){
 
@@ -42,8 +35,8 @@ const shopping = () => {
   }
 
   useEffect(() => {
-    fetchItems()
-  }, [fetchItems])
+    setItemsNoActivity(items.filter(item => !item.activityId))
+  }, [])
 
   return (
     <section className={styles.shoppingList}>
@@ -53,10 +46,10 @@ const shopping = () => {
           <button className="bg-sky-700 text-white my-2 py-1 px-3 rounded-md" onClick={() => setShowActivityList(true)}>Add To Activity</button>
           <button className="bg-amber-500 text-white m-2 py-1 px-3 rounded-md" onClick={() => newActivity()}>Create Activity</button>
         </div>
-        <ItemForm activity={undefined} setItems={setItems}/>
+        <ItemForm activity={undefined} setItems={setItemsNoActivity}/>
         <ul className={styles.list}>
-          {items.map((item: Item) => (
-              <ShoppingListItem  item={item} key={item.id} setItems={setItems}/>
+          {itemsNoActivity.map((item: Item) => (
+              <ShoppingListItem  item={item} key={item.id} setItems={setItemsNoActivity}/>
           ))}
         </ul>
     </section>

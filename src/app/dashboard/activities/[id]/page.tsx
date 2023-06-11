@@ -8,6 +8,7 @@ import styles from "./style.module.scss"
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
+import Link from 'next/link'
 
 const activityPage: React.FC = () => {
 
@@ -37,6 +38,9 @@ const activityPage: React.FC = () => {
             <div className='flex justify-around my-4'>
                 <div><b>Status: </b>{activity?.status}</div>
                 <div><b>Venue: </b>{activity?.venue}</div>
+            </div>
+            <div>
+                <button className="bg-red-500 text-white py-1 px-3 rounded-md"><Link href={`${pathname}/start`}>Start</Link></button>
             </div>
             <section>
                 <div className='mr-4'>

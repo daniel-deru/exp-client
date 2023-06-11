@@ -79,28 +79,6 @@ const ItemForm: React.FC<Props> = ({ activity, setItems }) => {
                             <Field name="price" value={values.price} onChange={handleChange}/>
                         </div>
                         <div>
-                            <div>Quantity</div>
-                            <Field type="number" min={1} name="quantity" value={values.quantity} onChange={handleChange}/>
-                        </div>
-                        <div>
-                            <div>Paid</div>
-                            <select name="paid" id="" value={values.paid} onChange={handleChange}>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div>
-                            <div>Type</div>
-                            <select name="type" id="" value={values.type} onChange={handleChange}>
-                                <option value="Product">Product</option>
-                                <option value="Service">Service</option>
-                            </select>
-                        </div>
-                        <div>
-                            <div>Tag</div>
-                            <Field name="tag" value={values.tag} onChange={handleChange}/>
-                        </div>
-                        <div>
                             <div></div>
                             <button type='submit'>Add</button>
                         </div>

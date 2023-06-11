@@ -6,7 +6,7 @@ import { selectActivities, Activity, deleteActivity } from "@/store/slices/activ
 import styles from "./style.module.scss"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { FaTimesCircle, FaRegTimesCircle } from "react-icons/fa"
+import { FaRegPlayCircle, FaRegTimesCircle } from "react-icons/fa"
 import { call } from "@/utils/call"
 
 
@@ -47,7 +47,7 @@ const activities = () => {
         <section className={styles.activities}>
             <div>
                 <span>Activities</span>
-                <button><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
+                <button className="ml-2 bg-sky-700 text-white py-1 px-3 rounded-md"><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
             </div>
             <div className={styles.activityList}>
                 <div >
@@ -59,7 +59,7 @@ const activities = () => {
                     </div>
                 </div>
                 {activities.map((activity: Activity) => (
-                    <div key={activity.id} >
+                    <div key={activity.id}  className="border-slate-300 border-solid border-2 rounded-md cursor-pointer hover:border-sky-700">
                         <div onClick={() => goToActivityPage(activity.id)}>
                             <div className={styles.name}>{activity.name}</div>
                             <div className={styles.status}>{activity.status}</div>
@@ -67,8 +67,15 @@ const activities = () => {
                             <div>{activityTotal(activity)}</div>
                         </div>
                         <div>
-                            <button onClick={() => removeActivity(activity)}>
-                                <FaRegTimesCircle/>
+                            <button className="text-sky-700">
+                                <Link href={`/dashboard/activities/${activity.id}/start`}>
+                                    {/* <FaRegPlayCircle /> */}
+                                    <span className="bg-sky-700 text-white py-1 px-3 rounded-md">Start</span>
+                                </Link>
+                            </button>
+                            <button className="text-red-500" onClick={() => removeActivity(activity)}>
+                                {/* <FaRegTimesCircle /> */}
+                                <span className="bg-slate-500 text-white py-1 px-3 rounded-md">Delete</span>
                             </button>
                         </div>
 

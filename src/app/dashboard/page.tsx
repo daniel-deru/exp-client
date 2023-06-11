@@ -1,39 +1,51 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getToken } from "@/utils/token"
 import { useAppDispatch } from "@/store/hooks"
-import { selectActivities, setActivities as setActivitiesAction } from "@/store/slices/activitySlice"
+import { Item, selectActivities, setActivities as setActivitiesAction } from "@/store/slices/activitySlice"
 import { call } from "@/utils/call"
 import styles from "./dashboard.module.scss"
+import { setItems } from "@/store/slices/itemSlice"
 
 import Tiles from "@/components/Tiles/Tiles"
 import ActivityList from "@/components/ActivityList"
+import Link from "next/link"
 
 const Dashboard = () => {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  async function fetchActivities(){
+  const fetchActivities = useCallback(async () => {
     const activities = await call("/activity/all?includeItems=true", "GET")
-    console.log(activities)
+
     if(activities.error) return activities.error
 
     dispatch(setActivitiesAction(activities.data))
+  }, [])
 
-  }
+  const fetchItems = useCallback(async () => {
+    const response = await call("/item/all", "GET")
 
+    if(response.error) return console.log(response.message)
 
-  useEffect(() => {
-    fetchActivities()
+    dispatch(setItems(response.data))
+  }, [])
+
+  function authorize(){
     const token = getToken()
-    console.log(getToken())
     if(!token) router.push("/signin")
     else if(token) router.push('/dashboard')
+  }
 
-  }, [])
+  useEffect(() => {
+    authorize()
+    fetchActivities()
+    fetchItems()
+   
+  }, [fetchItems, fetchActivities])
 
   return (
     <div className={styles.home}>
@@ -42,15 +54,16 @@ const Dashboard = () => {
         <div className="w-7/12">
           <div className="flex items-center w-full justify-start">
             <div className="text-xl">Recent Activities</div>
-            <button className="bg-teal-500 py-1 px-4 rounded-md text-white ml-2">Add New</button>
+            <button><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
           </div>
           <ActivityList />
         </div>
         <div className={`mx-4 w-4/12 ${styles.shoppingList}`}>
           <div className="flex items-center w-full">
             <div className="text-xl">Shopping Items</div>
-            <button  className="bg-teal-500 py-1 px-4 rounded-md text-white ml-2">Add New</button>
+            <button><Link href={"/dashboard/shopping"}>Add New</Link></button>
           </div>
+          {/* Shopping list goes here */}
         </div>
       </section>
     </div>

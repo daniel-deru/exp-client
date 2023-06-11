@@ -31,11 +31,18 @@ const Signin = () => {
   const router = useRouter()
 
   async function onSubmit(values: IInitialValues){
-    const response = await call<{access_token: string}>('/user/signin', "POST", values)
 
-    if(response.error) return setError(response.message)
-    console.log(response.data.access_token)
+    const response = await call<{access_token: string}>('/user/signin', "POST", values)
+    
+    
+    if(response.error){
+      alert(response.message)
+      
+      return setError(response.message)
+    }
+
     setToken(response.data.access_token)
+    // setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OGFiZGRlZC1iZWQ5LTQ1NDctYWRiNi1jMjQwOTgxNTQxYmQiLCJlbWFpbCI6ImRhbmllbGRlcnUzQGdtYWlsLmNvbSIsImlhdCI6MTY4NTkwMzc4MCwiZXhwIjoxNjg1OTkwMTgwfQ.o8Tpilog7LqEcAUb5mim1aElwP5C-cyZGJREgNZJ-Gg")
 
     router.push("/dashboard")
 
@@ -49,7 +56,7 @@ const Signin = () => {
         validationSchema={validationSchema}
       >
         {({handleChange, values}) => (
-          <Form  className='w-2/5 mx-auto rounded-lg'>
+          <Form  className='mx-auto rounded-lg'>
             <div>
               <div className='error'>
                 <ErrorMessage name='email'/>

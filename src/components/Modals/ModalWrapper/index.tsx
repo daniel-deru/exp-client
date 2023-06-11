@@ -7,7 +7,7 @@ interface Props {
     interactive?: boolean
 }
 
-const ModalWrapper: React.FC<Props> = ({ children, showModal, interactive }) => {
+const ModalWrapper: React.FC<Props> = ({ children, showModal, interactive = false }) => {
 
     return (
         <div 
@@ -16,7 +16,7 @@ const ModalWrapper: React.FC<Props> = ({ children, showModal, interactive }) => 
                     interactive ? 
                         styles.modalOn 
                         : 
-                        `${styles.modelOn} ${styles.cover}` 
+                        `${styles.modalOn} ${styles.cover}` 
                     : 
                     styles.modalOff}
         >

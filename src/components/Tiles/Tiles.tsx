@@ -35,27 +35,23 @@ const Tiles = () => {
         return total
     }
 
-    useEffect(() => {
-        console.log(activities)
-    }, [activities])
-
     return (
         <div className={styles.tiles}>
             <div className="spent">
                 <div>Total Spent</div>
-                <div className="data">{totalSpent()}</div>
+                <div className={styles.data}>{totalSpent()}</div>
             </div>
             <div className="activities">
                 <div>Total Activities</div>
-                <div className="data">{activities.length}</div>
+                <div className={styles.data}>{activities.length}</div>
             </div>
             <div className="items-p-activity">
                 <div>Avg Items</div>
-                <div className="data">{avgItemPerActivity()}</div>
+                <div className={styles.data}>{avgItemPerActivity()}</div>
             </div>
             <div className="spent-p-activity">
                 <div>Avg Spent</div>
-                <div className="data">{(totalSpent()/activities.length).toFixed(0)}</div>
+                <div className={styles.data}>{(totalSpent()/activities.length).toFixed(0)}</div>
             </div>
         </div>
     )

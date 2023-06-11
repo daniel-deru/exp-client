@@ -1,0 +1,25 @@
+@use "@/styles/colors" as colors;
+
+.start {
+    width: 100%;
+    margin-right: 1rem;
+}
+
+.start li {
+    border-bottom: 2px solid colors.$blue-dark;
+    margin-top: 1rem;
+}
+
+.start .completed {
+    text-decoration: line-through;
+    border-bottom: 2px solid colors.$gray-xlight;
+    color: colors.$gray-light;
+}
+
+.start li > * {
+    width: 32%;
+}
+
+.start li > *:first-child {
+    width: 10%;
+}

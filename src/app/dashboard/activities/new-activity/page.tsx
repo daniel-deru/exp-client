@@ -70,7 +70,16 @@ const newActivity: React.FC = () => {
                     <Form className={form.form}>
                         <div className={showOptional ? styles.hide : styles.show}>
                             <label htmlFor="name">Name</label>
-                            <Field name="name" value={values.name} onChange={handleChange}/>
+                            {/* <Field name="name" value={values.name} onChange={handleChange}/> */}
+                            <select name="name" id="" value={values.name} onChange={handleChange}>
+                                <option value="Spontaneous">Spontaneous</option>
+                                <option value="Daily">Monthly</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Bi-Weekly">Bi-Weekly</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Bi-Monthly">Bi-Monthly</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
                         </div>
                         <div  className={showOptional ? styles.show : styles.hide}>
                             <label htmlFor="venue">Venue</label>

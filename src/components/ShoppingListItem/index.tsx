@@ -18,7 +18,7 @@ const ShoppingListItem: React.FC<Props> = ({ item, setItems }) => {
     const selectedItems = useAppSelector(selectShoppingListSelected)
 
     function checkboxHandler(){
-        console.log(selectedItems)
+
         if(selected) dispatch(removeItem(item))
         else dispatch(addItem(item))
 

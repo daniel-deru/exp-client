@@ -19,7 +19,7 @@
     margin-bottom: 10px;
 }
 
-.form > div input {
+.form > div input, .form > div select {
     border: 2px solid colors.$blue-dark;
     padding: 5px;
     width: 100%;

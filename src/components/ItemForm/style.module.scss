@@ -11,11 +11,11 @@
 }
 
 .itemForm div:nth-child(1){
-    width: 25%; // Name
+    width: 60%; // Name
 }
 
 .itemForm div:nth-child(2){
-    width: 10%; // Price
+    width: 30%; // Price
 }
 
 .itemForm div:nth-child(3){
@@ -47,7 +47,7 @@
     width: 100%;
     padding: 4px;
     outline: none;
-    border-radius: 20px;
+    border-radius: 6px;
     padding-left: 10px;
     border: 2px solid transparent;
 
@@ -60,10 +60,11 @@
 .itemForm div button {
     width: 100%;
     outline: none;
-    border-radius: 20px;
+    border-radius: 6px;
     color: white;
-    background-color: colors.$blue;
-    padding: 5px 0px;
+    background-color: colors.$blue-dark;
+    border: 2px solid colors.$blue-dark;
+    padding: 4px 0px;
 
     &:hover, &:focus {
         box-shadow: 0px 0px 10px 0px colors.$blue ;
@@ -77,7 +78,7 @@
 @media screen and (max-width: 1000px) {
     .itemForm {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 3fr 2fr 1fr;
         grid-gap: 1rem;
     }
 
@@ -112,9 +113,8 @@
 
 @media screen and (max-width: 600px) {
     .itemForm {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 1rem;
+        display: flex;
+        flex-direction: column;
     }
 }
 

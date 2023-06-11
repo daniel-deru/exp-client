@@ -15,7 +15,7 @@ export default function Home() {
 
   async function fetchActivities(){
     const activities = await call("/activity/all?includeItems=true", "GET")
-    console.log(activities)
+
     if(activities.error) return activities.error
 
     dispatch(setActivities(activities.data))

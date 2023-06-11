@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { useAppSelector } from "@/store/hooks"
 import { selectNavState } from "@/store/slices/navSlice"
 import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 const variants = {
   closed: {
@@ -20,11 +21,7 @@ const DashboardNav = () => {
 
 
   const showNav = useAppSelector(selectNavState)
-
-
-  useEffect(() => {
-    console.log(showNav)
-  }, [showNav])
+  const pathname = usePathname()
 
   return (
     <motion.aside 
@@ -32,38 +29,38 @@ const DashboardNav = () => {
     >
         <nav className="text-center rounded-xl mt-4 bg-slate-300">
             <ul className="">
-                <li>
-                  <Link href={"/dashboard"}>
+                <li className={pathname === "/dashboard" ? styles.active : ""}>
+                  <Link href={"/dashboard"} >
                     <FaHome />
                     <div>Home</div>
                   </Link>
                 </li>
-                <li>
-                  <Link href={"/dashboard/activities"}>
+                <li className={pathname === "/dashboard/activities" ? styles.active : ""}>
+                  <Link href={"/dashboard/activities"} >
                     <FaShoppingCart />
                     <div>Activities</div>
                   </Link>
                 </li>
-                <li>
-                  <Link href={"/dashboard/shopping"}>
+                <li className={pathname === "/dashboard/shopping" ? styles.active : ""}>
+                  <Link href={"/dashboard/shopping"} >
                     <FaTasks />
                     <div>Shopping List</div>
                   </Link>
                 </li>
-                <li>
-                  <Link href={"/dashboard/insights"}>
+                <li className={pathname === "/dashboard/insights" ? styles.active : ""}>
+                  <Link href={"/dashboard/insights"} >
                     <FaChartLine />
                     <div>Insights</div>
                   </Link>
                 </li>
-                <li>
-                  <Link href={"/dashboard/settings"}>
+                <li className={pathname === "/dashboard/settings" ? styles.active : ""}>
+                  <Link href={"/dashboard/settings"} >
                     <BsGearFill />
                     <div>Settings</div>
                   </Link>
                 </li>
-                <li>
-                  <Link href={"/dashboard/account"}>
+                <li className={pathname === "/dashboard/account" ? styles.active : ""}>
+                  <Link href={"/dashboard/account"} >
                     <FaUserAlt />
                     <div>Account</div>
                   </Link>

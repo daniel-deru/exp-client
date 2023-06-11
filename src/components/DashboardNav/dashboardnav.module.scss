@@ -3,6 +3,7 @@
 .dashboard {
     margin: 0px 1rem;
     width: 15%;
+    min-width: 15%;
 }
 
 .dashboard nav {
@@ -31,9 +32,21 @@
     padding: 0px 10px;
 }
 
+.dashboard nav ul .active {
+    background-color: colors.$blue-dark;
+    color: white;
+}
+
+.dashboard nav ul .active:first-child {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
 @media screen and (max-width: 1000px) {
     .dashboard {
         width: 5%;
+        min-width: 5%;
+        max-width: 5%;
     }
 
     .dashboard nav ul li a {

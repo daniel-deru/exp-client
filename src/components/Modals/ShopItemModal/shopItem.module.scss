@@ -1,0 +1,33 @@
+@use "@/styles/colors" as colors;
+
+.shopItemModal {
+    background-color: white;
+    width: 30%;
+    border-radius: 1rem;
+    margin: auto;
+    // min-height: 50%;
+    margin-top: 10%;
+    padding: 1rem;
+}
+
+.shopItemModal label {
+    display: block;
+    margin-top: 1rem;
+}
+
+.shopItemModal input {
+    background-color: colors.$gray-light;
+    width: 100%;
+    padding: 2px 4px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.shopItemModal button {
+    margin-top: 1rem;
+    width: 100%;
+    background-color: colors.$blue-dark;
+    color: white;
+    border-radius: 5px;
+    padding: 2px;
+}

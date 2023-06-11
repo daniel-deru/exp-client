@@ -2,6 +2,10 @@
     height: 80vh;
     padding-top: 2rem;
     user-select: none;
+
+    form {
+        width: 40%;
+    }
     
     form > div {
         width: 80%;
@@ -34,5 +38,17 @@
         &:focus {
             border-bottom: 2px solid rgb(134 239 172);
         }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .signup form {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .signup form {
+        width: 100%;
     }
 }
