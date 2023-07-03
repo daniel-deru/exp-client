@@ -28,7 +28,7 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal, getActi
         if(!selectedActivity) return
 
         const activityId = selectedActivity.id
-        let responseArray = []
+        let responseArray: any = []
         let errorArray: string[] = []
 
         selectedItems.forEach(async (item) => {
@@ -37,6 +37,8 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal, getActi
             if(response.error) errorArray.push(response.message)
             else responseArray.push(response.data)
         })
+
+        console.log(responseArray)
 
         dispatch(clearSelected())
         setShowModal(false)

@@ -59,6 +59,14 @@ export const activitySlice = createSlice({
             return state.filter((activity: Activity) => {
                 return activity.id !== action.payload.id
             })
+        },
+        editItem: (state: Activity[], action: PayloadAction<Item>) => {
+            const item = action.payload
+
+            const activityIndex = state.findIndex(activity => activity.id === item.activityId)
+            const itemIndex = state[activityIndex].items.findIndex(i => i.id === item.id)
+
+            state[activityIndex].items[itemIndex] = {...item}
         }
     }
 })

@@ -19,9 +19,11 @@ export interface ItemDetail {
 const activityStart = () => {
 
     const [currentActivity, setCurrentActivity] = useState<Activity>()
+    const [currentItem, setCurrentItem] = useState<Item>()
     const [items, setItems] = useState<ItemComplete[]>([])
     const [itemsLeft, setItemsLeft] = useState<number>(0)
     const [showItemDetails, setShowItemDetails] = useState<ItemDetail>({show: false})
+    const [changeItems, setChangeItems] = useState<any[]>([])
 
     const pathname = usePathname()
     const router = useRouter()
@@ -38,10 +40,12 @@ const activityStart = () => {
             setShowItemDetails({show: true, item: items[itemIndex]})
         }
 
-        if(itemsLeft <= 1) router.push("/dashboard/activities")
+        // setItemsLeft(prevItemsLeft => event.target.checked ? prevItemsLeft-1 : prevItemsLeft+1)
+    }
 
-        setItemsLeft(prevItemsLeft => event.target.checked ? prevItemsLeft-1 : prevItemsLeft+1)
-        
+    function completePressed(){
+        console.log(changeItems)
+        router.push("/dashboard/activities")
     }
 
     const fetchData = useCallback(() => {
@@ -59,19 +63,22 @@ const activityStart = () => {
 
             setCurrentActivity(activity[0])
             setItems(itemList)
-            setItemsLeft(itemList.length)
+            // setItemsLeft(itemList.length)
         }
     }, [])
 
     useEffect(() => {
         fetchData()
-    }, [pathname])
+    }, [pathname, fetchData])
 
     return (
         <section className={styles.start}>
-            <ShopItemModal itemDetail={showItemDetails} setItemDetail={setShowItemDetails}/>
+            <ShopItemModal 
+                itemDetail={showItemDetails} 
+                setItemDetail={setShowItemDetails} 
+                updateItems={setChangeItems}
+            />
             <h1>{currentActivity?.name}</h1>
-
             <ul className="w-full">
                 {[...items.sort((a) => a.completed ? 1 : -1)].map((item, index) => (
                     <li className={`w-full flex justify-between ${item.completed ? styles.completed : ""}`} key={item.id}>
@@ -83,6 +90,9 @@ const activityStart = () => {
                     </li>
                 ))}
             </ul>
+            <div>
+                <button onClick={() => completePressed()}>Complete</button>
+            </div>
         </section>
     )
 }

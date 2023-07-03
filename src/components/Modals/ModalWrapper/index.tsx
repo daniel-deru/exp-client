@@ -9,6 +9,8 @@ interface Props {
 
 const ModalWrapper: React.FC<Props> = ({ children, showModal, interactive = false }) => {
 
+    if(!showModal) return null
+
     return (
         <div 
             className={

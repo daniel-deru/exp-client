@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import ModalWrapper from '../ModalWrapper'
 import { ItemDetail } from '@/app/dashboard/activities/[id]/start/page'
 import styles from "./shopItem.module.scss"
@@ -7,14 +7,35 @@ import { selectItems } from '@/store/slices/itemSlice'
 
 interface Props {
     setItemDetail: React.Dispatch<React.SetStateAction<ItemDetail>>
-    itemDetail: ItemDetail
+    itemDetail: ItemDetail,
+    updateItems: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-const ShopItemModal: React.FC<Props> = ({setItemDetail, itemDetail}) => {
+const ShopItemModal: React.FC<Props> = ({ setItemDetail, itemDetail, updateItems }) => {
 
-    const items = useAppSelector(selectItems)
+    const quantityRef = useRef<HTMLInputElement>(null)
+    const priceRef = useRef<HTMLInputElement>(null)
 
-    console.log(items)
+    // TODO: Make focus start with price when modal opens for better UX
+    function update(){
+        const price = priceRef?.current?.value
+        const quantity = quantityRef?.current?.value
+
+        if(!price || !quantity) return
+
+        updateItems(prevItems => {
+            const itemIndex = prevItems.findIndex(item => item.itemId === itemDetail?.item?.id)
+            
+            
+            if(itemIndex < 0) return [...prevItems, {...itemDetail.item, price, quantity}]
+
+            prevItems[itemIndex] = {...itemDetail.item, price, quantity}
+            return [...prevItems]            
+        })
+
+        setItemDetail({show: false})
+        
+    }
     
     return (
         <ModalWrapper showModal={itemDetail.show}>
@@ -24,14 +45,14 @@ const ShopItemModal: React.FC<Props> = ({setItemDetail, itemDetail}) => {
                     <div>{itemDetail?.item?.name}</div>
                     <div>
                         <label htmlFor="price">Price</label>
-                        <input type="number" name='price'/>
+                        <input type="number" name='price' ref={priceRef}/>
                     </div>
                     <div>
                         <label htmlFor="quantity">Quantity</label>
-                        <input type="number" name='quantity' defaultValue={1}/>
+                        <input type="number" name='quantity' defaultValue={1} ref={quantityRef}/>
                     </div>
                 </div>
-                <button onClick={() => setItemDetail({show: false})}>Complete</button>
+                <button onClick={() => update()}>Complete</button>
             </div>
 
         </ModalWrapper>

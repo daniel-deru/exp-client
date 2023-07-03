@@ -25,16 +25,14 @@ const shopping = () => {
   function newActivity(){
 
     if(selectedItems.length <= 0){
-      // TODO: Add error modal
-      console.log("You did not select any items")
-      return
+      return alert("Please select at least one item.")
     }
     router.push("/dashboard/activities/new-activity?withItems=true")
-
 
   }
 
   useEffect(() => {
+    // console.log(items)
     setItemsNoActivity(items.filter(item => !item.activityId))
   }, [])
 

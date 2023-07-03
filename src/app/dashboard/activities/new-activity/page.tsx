@@ -45,7 +45,7 @@ const newActivity: React.FC = () => {
         if(response.error) return console.log(response.message)
         
         if(withItems){
-            const addItemsResponse = await call(`items/create/${response.data.id}`, "POST", selectedItems)
+            const addItemsResponse = await call(`item/create/${response.data.id}`, "POST", selectedItems)
 
             if(addItemsResponse.error) return console.log(addItemsResponse.message)
 
@@ -69,17 +69,18 @@ const newActivity: React.FC = () => {
                 {({ values, handleChange }) => (
                     <Form className={form.form}>
                         <div className={showOptional ? styles.hide : styles.show}>
-                            <label htmlFor="name">Name</label>
-                            {/* <Field name="name" value={values.name} onChange={handleChange}/> */}
-                            <select name="name" id="" value={values.name} onChange={handleChange}>
+                            <label htmlFor="name">Name <ErrorMessage name="name" /></label>
+                            
+                            <Field as="select" name="name" id="name" value={values.name} onChange={handleChange}>
+                                <option value="" disabled>Please select a frequency</option>
                                 <option value="Spontaneous">Spontaneous</option>
-                                <option value="Daily">Monthly</option>
+                                <option value="Daily">Daily</option>
                                 <option value="Weekly">Weekly</option>
                                 <option value="Bi-Weekly">Bi-Weekly</option>
                                 <option value="Monthly">Monthly</option>
                                 <option value="Bi-Monthly">Bi-Monthly</option>
                                 <option value="Yearly">Yearly</option>
-                            </select>
+                            </Field>
                         </div>
                         <div  className={showOptional ? styles.show : styles.hide}>
                             <label htmlFor="venue">Venue</label>

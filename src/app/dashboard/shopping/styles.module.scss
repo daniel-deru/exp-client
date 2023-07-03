@@ -6,6 +6,11 @@
     margin-top: 1rem;
 }
 
+.list {
+    height: 60vh;
+    overflow-y: auto;
+}
+
 @media screen and (max-width: 500px) {
     .shoppingList {
         width: 95vw;
