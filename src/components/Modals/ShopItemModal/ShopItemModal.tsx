@@ -2,8 +2,6 @@ import React, { useRef } from 'react'
 import ModalWrapper from '../ModalWrapper'
 import { ItemDetail } from '@/app/dashboard/activities/[id]/start/page'
 import styles from "./shopItem.module.scss"
-import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { selectItems } from '@/store/slices/itemSlice'
 
 interface Props {
     setItemDetail: React.Dispatch<React.SetStateAction<ItemDetail>>
@@ -16,7 +14,6 @@ const ShopItemModal: React.FC<Props> = ({ setItemDetail, itemDetail, updateItems
     const quantityRef = useRef<HTMLInputElement>(null)
     const priceRef = useRef<HTMLInputElement>(null)
 
-    // TODO: Make focus start with price when modal opens for better UX
     function update(){
         const price = priceRef?.current?.value
         const quantity = quantityRef?.current?.value
@@ -45,7 +42,7 @@ const ShopItemModal: React.FC<Props> = ({ setItemDetail, itemDetail, updateItems
                     <div>{itemDetail?.item?.name}</div>
                     <div>
                         <label htmlFor="price">Price</label>
-                        <input type="number" name='price' ref={priceRef}/>
+                        <input type="number" name='price' ref={priceRef} autoFocus/>
                     </div>
                     <div>
                         <label htmlFor="quantity">Quantity</label>

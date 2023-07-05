@@ -3,7 +3,7 @@ import activitySlice from "./slices/activitySlice"
 import shoppingListSelectedSlice  from "./slices/shoppingListSelected"
 import errorSlice from "./slices/errorSlice"
 import navSlice from "./slices/navSlice"
-import itemSlice from "./slices/itemSlice"
+import itemSlice from "./slices/shoppingItemSlice"
 
 
 export const store = configureStore({

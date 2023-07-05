@@ -11,7 +11,7 @@ import ChooseActivityModal from '@/components/Modals/ChooseActivity'
 import { useRouter } from 'next/navigation'
 import { selectShoppingListSelected,  } from '@/store/slices/shoppingListSelected'
 import { useAppSelector } from '@/store/hooks'
-import { selectItems } from '@/store/slices/itemSlice'
+import { selectItems } from '@/store/slices/shoppingItemSlice'
 
 const shopping = () => {
   const [showActivityList, setShowActivityList] = useState<boolean>(false)
@@ -19,7 +19,7 @@ const shopping = () => {
 
   const router = useRouter()
   const selectedItems = useAppSelector(selectShoppingListSelected)
-  const items = useAppSelector(selectItems)
+  const shoppingItems = useAppSelector(selectItems)
 
 
   function newActivity(){
@@ -31,11 +31,6 @@ const shopping = () => {
 
   }
 
-  useEffect(() => {
-    // console.log(items)
-    setItemsNoActivity(items.filter(item => !item.activityId))
-  }, [])
-
   return (
     <section className={styles.shoppingList}>
         <ChooseActivityModal showModal={showActivityList} setShowModal={setShowActivityList} />
@@ -44,9 +39,10 @@ const shopping = () => {
           <button className="bg-sky-700 text-white my-2 py-1 px-3 rounded-md" onClick={() => setShowActivityList(true)}>Add To Activity</button>
           <button className="bg-amber-500 text-white m-2 py-1 px-3 rounded-md" onClick={() => newActivity()}>Create Activity</button>
         </div>
-        <ItemForm activity={undefined} setItems={setItemsNoActivity}/>
+        {/* TODO: Remove the setItems and make changes accordingly */}
+        <ItemForm setItems={setItemsNoActivity}/>
         <ul className={styles.list}>
-          {itemsNoActivity.map((item: Item) => (
+          {shoppingItems.map((item: Item) => (
               <ShoppingListItem  item={item} key={item.id} setItems={setItemsNoActivity}/>
           ))}
         </ul>

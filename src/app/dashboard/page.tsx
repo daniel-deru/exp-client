@@ -7,7 +7,7 @@ import { useAppDispatch } from "@/store/hooks"
 import { Item, selectActivities, setActivities as setActivitiesAction } from "@/store/slices/activitySlice"
 import { call } from "@/utils/call"
 import styles from "./dashboard.module.scss"
-import { setItems } from "@/store/slices/itemSlice"
+import { setShoppingItems } from "@/store/slices/shoppingItemSlice"
 
 import Tiles from "@/components/Tiles/Tiles"
 import ActivityList from "@/components/ActivityList"
@@ -26,12 +26,12 @@ const Dashboard = () => {
     dispatch(setActivitiesAction(activities.data))
   }, [])
 
-  const fetchItems = useCallback(async () => {
-    const response = await call("/item/all", "GET")
+  const fetchShoppingItems = useCallback(async () => {
+    const response = await call("/item/all?noActivity=true", "GET")
 
     if(response.error) return console.log(response.message)
 
-    dispatch(setItems(response.data))
+    dispatch(setShoppingItems(response.data))
   }, [])
 
   function authorize(){
@@ -43,9 +43,9 @@ const Dashboard = () => {
   useEffect(() => {
     authorize()
     fetchActivities()
-    fetchItems()
+    fetchShoppingItems()
    
-  }, [fetchItems, fetchActivities])
+  }, [fetchShoppingItems, fetchActivities])
 
   return (
     <div className={styles.home}>

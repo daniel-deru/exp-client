@@ -32,7 +32,9 @@ const ItemList: React.FC<Props> = ({ items, setItems }) => {
                 <div>{item?.name}</div>
                 <div>{item?.price * item?.quantity}</div>
                 <div className={styles.paid}>{item?.paid ? "Paid" : "Not Paid"}</div>
-                <div><button>Edit</button></div>
+                <div>
+                  <button>Edit</button>
+                </div>
                 <div className="text-right text-red-500 text-xl">
                   <button onClick={() => deleteItem(item)}><FaRegTimesCircle/></button>
                 </div>

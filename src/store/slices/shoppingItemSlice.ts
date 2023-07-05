@@ -26,11 +26,13 @@ export const itemSlice = createSlice({
     name: "items",
     initialState,
     reducers: {
-        setItems: (state: Item[], action: PayloadAction<Item[]>) => action.payload
+        setShoppingItems: (state: Item[], action: PayloadAction<Item[]>) => action.payload,
+        addShoppingItem: (state: Item[], action: PayloadAction<Item>) => [...state, action.payload],
+        deleteShoppingItem: (state: Item[], action: PayloadAction<Item>) => [...state.filter(item => item.id !== action.payload.id)]
     }
 })
 
-export const { setItems } = itemSlice.actions
+export const { setShoppingItems, addShoppingItem, deleteShoppingItem } = itemSlice.actions
 
 export const selectItems = (state: RootState) => state.items
 

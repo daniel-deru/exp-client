@@ -1,13 +1,14 @@
 import { useAppDispatch } from '@/store/hooks'
 import { Activity, Item, addItem } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, ErrorMessage } from 'formik'
 import React from 'react'
 import * as yup from "yup"
 import styles from "./style.module.scss"
+import { addShoppingItem } from '@/store/slices/shoppingItemSlice'
 
 const validationSchema = yup.object().shape({
-    name: yup.string(),
+    name: yup.string().required("Required"),
     price: yup.string(),
     quantity: yup.string(),
     paid: yup.string(),
@@ -24,11 +25,11 @@ const initialValues = {
 }
 
 interface Props {
-    activity: Activity | undefined,
+    activity?: Activity | undefined,
     setItems: React.Dispatch<React.SetStateAction<Item[]>>
 }
 
-const ItemForm: React.FC<Props> = ({ activity, setItems }) => {
+const ItemForm: React.FC<Props> = ({ activity }) => {
 
     const dispatch = useAppDispatch()
 
@@ -45,20 +46,17 @@ const ItemForm: React.FC<Props> = ({ activity, setItems }) => {
 
         
         if(response.error) {
-            // display error and return from function
+            // TODO: display error and return from function
             return
-      
         } 
-        setItems(prevItems => [...prevItems, response.data])
+        
+        // TODO: Add condition here to check if shopping list item or activity item to update accordingly
+        dispatch(addShoppingItem(response.data))
 
-        if(activityId) {
-            dispatch(addItem({
-                activityId,
-                item: response.data
-            }))
-        }
         resetForm({values: ""})
     }
+
+    console.log(activity)
 
 
     return (
@@ -71,12 +69,16 @@ const ItemForm: React.FC<Props> = ({ activity, setItems }) => {
                 <Form>
                     <div className={`${styles.itemForm} mt-3`}>
                         <div>
-                            <div>Name</div>
+                            <div className='flex'>Name <ErrorMessage name='name'/></div>
                             <Field name="name" value={values.name} onChange={handleChange}/>
                         </div>
                         <div>
                             <div>Price</div>
-                            <Field name="price" value={values.price} onChange={handleChange}/>
+                            <Field name="price" value={values.price} onChange={handleChange} min={0}/>
+                        </div>
+                        <div>
+                            <div>Quantity</div>
+                            <Field name="quantity" type="number" min={0} value={values.quantity} onChange={handleChange}/>
                         </div>
                         <div>
                             <div></div>

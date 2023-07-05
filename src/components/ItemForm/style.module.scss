@@ -11,31 +11,19 @@
 }
 
 .itemForm div:nth-child(1){
-    width: 60%; // Name
+    width: 40%; // Name
 }
 
 .itemForm div:nth-child(2){
-    width: 30%; // Price
+    width: 20%; // Price
 }
 
 .itemForm div:nth-child(3){
-    width: 7%; // Quantity
+    width: 15%; // Quantity
 }
 
 .itemForm div:nth-child(4){
-    width: 7%; // Paid
-}
-
-.itemForm div:nth-child(5){
-    width: 10%; // Type
-}
-
-.itemForm div:nth-child(6){
-    width: 15%; // Tag
-}
-
-.itemForm div:nth-child(7){
-    width: 10%; // Button
+    width: 15%; // Paid
 }
 
 .itemForm div div {
