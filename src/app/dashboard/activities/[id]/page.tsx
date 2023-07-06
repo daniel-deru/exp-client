@@ -44,7 +44,7 @@ const activityPage: React.FC = () => {
             </div>
             <section>
                 <div className='mr-4'>
-                    <ItemForm activity={activity} setItems={setItems}/>
+                    <ItemForm activity={activity} />
                 </div>
                 <h2 className='mt-4'>Items</h2>
                <ItemList items={items} setItems={setItems}/>

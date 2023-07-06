@@ -44,7 +44,6 @@ const activityStart = () => {
     }
 
     function completePressed(){
-        console.log(changeItems)
         router.push("/dashboard/activities")
     }
 

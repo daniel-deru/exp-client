@@ -8,8 +8,8 @@ import { call } from '@/utils/call'
 import { useRouter, useSearchParams } from 'next/navigation'
 import styles from "./newActivity.module.scss"
 import { selectShoppingListSelected } from '@/store/slices/shoppingListSelected'
-import { useAppSelector } from '@/store/hooks'
-import { Activity } from '@/store/slices/activitySlice'
+import { useAppSelector, useAppDispatch } from '@/store/hooks'
+import { Activity, Item, addActivity, addItems } from '@/store/slices/activitySlice'
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Required"),
@@ -35,6 +35,8 @@ const newActivity: React.FC = () => {
     const searchParams = useSearchParams()
     const selectedItems = useAppSelector(selectShoppingListSelected)
 
+    const dispatch = useAppDispatch()
+
     async function onSubmit(values: typeof initialValues){
 
         const datePlanned = new Date(values.datePlanned).toISOString()
@@ -42,21 +44,36 @@ const newActivity: React.FC = () => {
 
         const response = await call<Activity>("/activity/create", "POST", {...values, datePlanned})
 
-        if(response.error) return console.log(response.message)
-        
-        if(withItems){
-            const addItemsResponse = await call(`item/create/${response.data.id}`, "POST", selectedItems)
-
-            if(addItemsResponse.error) return console.log(addItemsResponse.message)
-
+        if(response.error) {
+            alert(`An Error Occurred: ${response.message}`)
+            return
         }
 
-        router.push('/dashboard/activities')
-    }
+        const activityId = response.data.id
+        
+        let newItems: Item[] = []
+        
+        if(withItems === "true"){
 
-    useEffect(() => {
-       
-    }, [])
+
+            for(let item of selectedItems){
+                const addItemsResponse = await call(`item/edit/${item.id}`, "PATCH", { activityId })
+                
+                if(addItemsResponse.error){
+                    alert(`An error occurred: ${addItemsResponse.message}`)
+                    return
+                } 
+                
+                newItems.push(addItemsResponse.data)
+            }
+            
+            
+        }
+        dispatch(addActivity({...response.data, items: newItems }))
+
+        router.push('/dashboard/activities')
+        
+    }
 
     return (
         <main className={styles.newActivity}>

@@ -43,18 +43,41 @@ export const activitySlice = createSlice({
     initialState,
     reducers: {
         setActivities: (state: Activity[], action: PayloadAction<Activity[]>) => {
-            state = action.payload
-
-            return state
+           return action.payload
+        },
+        addActivity: (state: Activity[], action: PayloadAction<Activity>) => {
+           return [...state, action.payload]
         },
         addItem: (state: Activity[], action: PayloadAction<{activityId: string, item: Item}>) => {
+
             return state.map((activity: Activity) => {
                 if(activity.id === action.payload.activityId){
-                    activity.items.push(action.payload.item)
+                    if(activity.items) {
+                        activity.items = [...activity.items, action.payload.item]
+                    } else {
+                        activity.items = [action.payload.item]
+                    }
                 }
                 return activity
             })
         },
+
+        addItems: (state: Activity[], action: PayloadAction<{activityId: string, items: Item[]}>) => {
+
+            const newActivities = state.map((activity: Activity) => {
+                if(activity.id === action.payload.activityId){
+                    if(activity.items) {
+                        activity.items = [...activity.items, ...action.payload.items]
+                    } else {
+                        activity.items = [...action.payload.items]
+                    }
+                }
+                return activity
+            })
+
+            return [...newActivities]
+        },
+
         deleteActivity: (state: Activity[], action: PayloadAction<Activity>) => {
             return state.filter((activity: Activity) => {
                 return activity.id !== action.payload.id
@@ -71,7 +94,7 @@ export const activitySlice = createSlice({
     }
 })
 
-export const { setActivities, addItem, deleteActivity } = activitySlice.actions
+export const { setActivities, addItem, deleteActivity, addActivity, addItems } = activitySlice.actions
 
 export const selectActivities = (state: RootState) => state.activities
 

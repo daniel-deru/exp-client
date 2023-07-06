@@ -2,7 +2,7 @@ import { useAppDispatch } from '@/store/hooks'
 import { Activity, Item, addItem } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
 import { Field, Form, Formik, ErrorMessage } from 'formik'
-import React from 'react'
+import React, { useRef } from 'react'
 import * as yup from "yup"
 import styles from "./style.module.scss"
 import { addShoppingItem } from '@/store/slices/shoppingItemSlice'
@@ -25,13 +25,14 @@ const initialValues = {
 }
 
 interface Props {
-    activity?: Activity | undefined,
-    setItems: React.Dispatch<React.SetStateAction<Item[]>>
+    activity?: Activity | undefined
 }
 
 const ItemForm: React.FC<Props> = ({ activity }) => {
 
     const dispatch = useAppDispatch()
+
+    const nameFieldRef = useRef<HTMLInputElement>(null)
 
     async function createItem(values: typeof initialValues, { resetForm }: any){
 
@@ -54,9 +55,8 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
         dispatch(addShoppingItem(response.data))
 
         resetForm({values: ""})
+        nameFieldRef.current?.focus()
     }
-
-    console.log(activity)
 
 
     return (
@@ -70,7 +70,7 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
                     <div className={`${styles.itemForm} mt-3`}>
                         <div>
                             <div className='flex'>Name <ErrorMessage name='name'/></div>
-                            <Field name="name" value={values.name} onChange={handleChange}/>
+                            <Field name="name" value={values.name} onChange={handleChange} innerRef={nameFieldRef}/>
                         </div>
                         <div>
                             <div>Price</div>

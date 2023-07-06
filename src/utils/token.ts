@@ -1,5 +1,5 @@
 export function getToken(): string | null{
-    if(document){
+    if(document !== undefined){
         const token = document.cookie.match(/(?<=exp-jwt-token=)[a-zA-Z0-9\._\-]*/gi)
         return token ? token[0] : ""
     }

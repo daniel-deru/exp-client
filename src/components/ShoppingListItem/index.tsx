@@ -1,17 +1,16 @@
 import { Item } from '@/store/slices/activitySlice'
 import React, { useState, useEffect } from 'react'
-import styles from "./styles.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { removeItem, addItem, selectShoppingListSelected } from '@/store/slices/shoppingListSelected'
+import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 import { FaRegTimesCircle } from "react-icons/fa"
 import { call } from '@/utils/call'
 
 interface Props {
     item: Item
-    setItems: React.Dispatch<React.SetStateAction<Item[]>>
 }
 
-const ShoppingListItem: React.FC<Props> = ({ item, setItems }) => {
+const ShoppingListItem: React.FC<Props> = ({ item }) => {
     const [selected, setSelected] = useState<boolean>(false)
 
     const dispatch = useAppDispatch()
@@ -35,9 +34,9 @@ const ShoppingListItem: React.FC<Props> = ({ item, setItems }) => {
 
         if(response.error) return response.error
 
+        // TODO: Confirm what the first dispatch does.
         dispatch(removeItem(item))
-
-        setItems(prevItems => prevItems.filter(curItem => curItem.id !== item.id))
+        dispatch(deleteShoppingItem(item))
     }
 
     useEffect(() => {
@@ -47,12 +46,12 @@ const ShoppingListItem: React.FC<Props> = ({ item, setItems }) => {
 
     return (
         <li key={item.id} className={`rounded shadow my-3 p-1 flex justify-between ${selected ? "bg-sky-100" : ""}`}>
-            <div>
+            <div className='w-2/5'>
                 <input checked={selected} type="checkbox" onChange={() => checkboxHandler()} className='mx-2 cursor-pointer'/>
                 <span>{item.name}</span>
             </div>
-            <div>{item.price}</div>
-            <div>{item.tag}</div>
+            <div className='w-1/5'>Price: {item.price || "Not Set"}</div>
+            <div className='w-1/5'>Qty: {item.quantity}</div>
             <div className="text-red-500 text-xl"><button onClick={() => deleteItem()}><FaRegTimesCircle /></button></div>
         </li>
     )
