@@ -47,7 +47,7 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
 
         
         if(response.error) {
-            // TODO: display error and return from function
+            alert(response.message)
             return
         } 
         

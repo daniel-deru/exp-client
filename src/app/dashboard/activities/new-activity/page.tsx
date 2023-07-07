@@ -10,6 +10,7 @@ import styles from "./newActivity.module.scss"
 import { selectShoppingListSelected } from '@/store/slices/shoppingListSelected'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { Activity, Item, addActivity, addItems } from '@/store/slices/activitySlice'
+import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Required"),
@@ -69,7 +70,12 @@ const newActivity: React.FC = () => {
             
             
         }
+
         dispatch(addActivity({...response.data, items: newItems }))
+        
+        for(let item of newItems){
+            dispatch(deleteShoppingItem(item))
+        }
 
         router.push('/dashboard/activities')
         

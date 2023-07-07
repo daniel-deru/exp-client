@@ -63,19 +63,18 @@ export const activitySlice = createSlice({
         },
 
         addItems: (state: Activity[], action: PayloadAction<{activityId: string, items: Item[]}>) => {
+            const { activityId, items } = action.payload
+            
+            const activity = state.filter(activity => activity.id === activityId)[0]
+            const activityCopy = { ...activity }
+            const itemsCopy = [...activity.items, ...items ]
 
-            const newActivities = state.map((activity: Activity) => {
-                if(activity.id === action.payload.activityId){
-                    if(activity.items) {
-                        activity.items = [...activity.items, ...action.payload.items]
-                    } else {
-                        activity.items = [...action.payload.items]
-                    }
-                }
-                return activity
-            })
+            activityCopy.items = itemsCopy
+            
+            const activityIndex = state.indexOf(activity)
 
-            return [...newActivities]
+            state.splice(activityIndex, 1)
+            return [...state, activityCopy]
         },
 
         deleteActivity: (state: Activity[], action: PayloadAction<Activity>) => {

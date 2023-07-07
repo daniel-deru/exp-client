@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { Activity, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, Item, selectActivities } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
+import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
+import { addItems, deleteActivity, addActivity } from '@/store/slices/activitySlice'
 
 import ModalWrapper from '../ModalWrapper'
 import { selectShoppingListSelected, clearSelected } from '@/store/slices/shoppingListSelected'
@@ -9,11 +11,10 @@ import { selectShoppingListSelected, clearSelected } from '@/store/slices/shoppi
 interface Props {
     showModal: boolean
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-    getActivity?: (activity: Activity) => void
 }
 
 
-const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal, getActivity }) => {
+const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal }) => {
 
     const [selectedActivity, setSelectedActivity] = useState<Activity>()
 
@@ -28,21 +29,38 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal, getActi
         if(!selectedActivity) return
 
         const activityId = selectedActivity.id
-        let responseArray: any = []
+
         let errorArray: string[] = []
 
-        selectedItems.forEach(async (item) => {
-            const response = await call(`/item/edit/${item.id}`, "PATCH", {activityId})
+        const serverItems = await callAddToActivity(selectedItems, activityId)
 
-            if(response.error) errorArray.push(response.message)
-            else responseArray.push(response.data)
-        })
+        for(let item of serverItems){
+            dispatch(deleteShoppingItem(item))
+        }
 
-        console.log(responseArray)
+        // TODO: This error validation is no longer valid. Come up with better error validation
+        if(errorArray.length <= 0){
+           dispatch(deleteActivity(selectedActivity))
+           dispatch(addActivity({...selectedActivity, items: [...selectedItems, ...selectedActivity.items]}))
+        }
 
         dispatch(clearSelected())
         setShowModal(false)
         setSelectedActivity(undefined)
+    }
+
+    async function callAddToActivity(items: Item[], activityId: string, fItems: Item[] = []){
+        if(items.length <= 0) return fItems
+
+        const item = items[0]
+
+        if(!item) return fItems
+
+        const response = await call<Item>(`/item/edit/${item.id}`, "PATCH", { activityId })
+
+        if(!response.error) fItems.push(response.data)
+
+        return callAddToActivity(items.slice(1, items.length), activityId, fItems)
     }
 
     return (

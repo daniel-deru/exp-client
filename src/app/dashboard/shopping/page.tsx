@@ -23,10 +23,20 @@ const shopping = () => {
   function newActivity(){
 
     if(selectedItems.length <= 0){
-      return alert("Please select at least one item.")
+     
+      return alert("Please select at least one shopping item.")
     }
     router.push("/dashboard/activities/new-activity?withItems=true")
 
+  }
+
+  function addToActivity(){
+
+    if(selectedItems.length <= 0){
+      return alert("Please select at least one shopping item.")
+    }
+
+    setShowActivityList(true)
   }
 
   return (
@@ -37,7 +47,7 @@ const shopping = () => {
         <h1 className='text-2xl'>Shopping List</h1>
 
         <div>
-          <button className="bg-sky-700 text-white my-2 py-1 px-3 rounded-md" onClick={() => setShowActivityList(true)}>Add To Activity</button>
+          <button className="bg-sky-700 text-white my-2 py-1 px-3 rounded-md" onClick={() => addToActivity()}>Add To Activity</button>
           <button className="bg-amber-500 text-white m-2 py-1 px-3 rounded-md" onClick={() => newActivity()}>Create Activity</button>
         </div>
 
