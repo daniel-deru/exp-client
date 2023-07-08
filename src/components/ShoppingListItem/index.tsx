@@ -34,9 +34,9 @@ const ShoppingListItem: React.FC<Props> = ({ item }) => {
 
         if(response.error) return response.error
 
-        // TODO: Confirm what the first dispatch does.
-        dispatch(removeItem(item))
-        dispatch(deleteShoppingItem(item))
+        
+        dispatch(removeItem(item)) // removes the item from the selected item slice
+        dispatch(deleteShoppingItem(item)) // deletes the items from the shopping list items
     }
 
     useEffect(() => {

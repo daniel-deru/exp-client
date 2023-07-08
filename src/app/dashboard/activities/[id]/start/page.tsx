@@ -19,9 +19,7 @@ export interface ItemDetail {
 const activityStart = () => {
 
     const [currentActivity, setCurrentActivity] = useState<Activity>()
-    const [currentItem, setCurrentItem] = useState<Item>()
     const [items, setItems] = useState<ItemComplete[]>([])
-    const [itemsLeft, setItemsLeft] = useState<number>(0)
     const [showItemDetails, setShowItemDetails] = useState<ItemDetail>({show: false})
     const [changeItems, setChangeItems] = useState<any[]>([])
 
@@ -39,8 +37,6 @@ const activityStart = () => {
         if(event.target.checked) {
             setShowItemDetails({show: true, item: items[itemIndex]})
         }
-
-        // setItemsLeft(prevItemsLeft => event.target.checked ? prevItemsLeft-1 : prevItemsLeft+1)
     }
 
     function completePressed(){
@@ -62,7 +58,6 @@ const activityStart = () => {
 
             setCurrentActivity(activity[0])
             setItems(itemList)
-            // setItemsLeft(itemList.length)
         }
     }, [])
 

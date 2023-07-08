@@ -8,6 +8,7 @@ import { Item, selectActivities, setActivities as setActivitiesAction } from "@/
 import { call } from "@/utils/call"
 import styles from "./dashboard.module.scss"
 import { setShoppingItems } from "@/store/slices/shoppingItemSlice"
+import useActivities from "@/hooks/activities"
 
 import Tiles from "@/components/Tiles/Tiles"
 import ActivityList from "@/components/ActivityList"
@@ -18,13 +19,7 @@ const Dashboard = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  const fetchActivities = useCallback(async () => {
-    const activities = await call("/activity/all?includeItems=true", "GET")
-
-    if(activities.error) return activities.error
-
-    dispatch(setActivitiesAction(activities.data))
-  }, [])
+  const activities = useActivities()
 
   const fetchShoppingItems = useCallback(async () => {
     const response = await call("/item/all?noActivity=true", "GET")
@@ -42,10 +37,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     authorize()
-    fetchActivities()
     fetchShoppingItems()
    
-  }, [fetchShoppingItems, fetchActivities])
+  }, [fetchShoppingItems])
 
   return (
     <div className={styles.home}>

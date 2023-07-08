@@ -1,17 +1,23 @@
-import { Item } from '@/store/slices/activitySlice'
+import { useEffect, useState } from "react"
+import { Activity, Item } from '@/store/slices/activitySlice'
 import React from 'react'
 import styles from "./styles.module.scss"
 import { FaRegTimesCircle } from "react-icons/fa"
 import { call } from '@/utils/call'
+import { deleteActivity, addActivity } from "@/store/slices/activitySlice"
+import { useAppDispatch } from "@/store/hooks"
+
 
 
 interface Props {
-    items: Item[],
-    setItems: React.Dispatch<React.SetStateAction<Item[]>>
+    activity: Activity
 }
 
-const ItemList: React.FC<Props> = ({ items, setItems }) => {
+const ItemList: React.FC<Props> = ({ activity }) => {
 
+    const [items, setItems] = useState<Item[]>([])
+
+    const dispatch = useAppDispatch()
 
     async function deleteItem(item: Item){
       const confirmDelete = confirm("Are you sure you want to delete this item")
@@ -22,12 +28,22 @@ const ItemList: React.FC<Props> = ({ items, setItems }) => {
 
       if(response.error) return response.error
 
-      setItems(prevItems => prevItems.filter(curItem => curItem.id !== item.id))
+      const newItems = [...items].filter(curItem => curItem.id !== item.id)
+
+      setItems(newItems)
+
+      dispatch(deleteActivity(activity))
+      dispatch(addActivity({...activity, items: newItems}))
+      
     }
+
+    useEffect(() => {
+      setItems(activity.items)
+    }, [activity])
 
     return (
       <ul className={styles.itemList}>
-        {items.map((item: Item) => (
+        {items?.map((item: Item) => (
             <li className='flex justify-between' key={item.id}>
                 <div>{item?.name}</div>
                 <div>{item?.price * item?.quantity}</div>

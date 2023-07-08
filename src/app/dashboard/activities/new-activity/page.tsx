@@ -15,7 +15,6 @@ import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 const validationSchema = yup.object().shape({
     name: yup.string().required("Required"),
     venue: yup.string(),
-    datePlanned: yup.string(),
     description: yup.string(),
     tag: yup.string().max(15, "Tag Too Long")
 })
@@ -23,7 +22,6 @@ const validationSchema = yup.object().shape({
 const initialValues = {
     name: "",
     venue: "",
-    datePlanned: new Date(),
     description: "",
     tag: ""
 }
@@ -40,14 +38,12 @@ const newActivity: React.FC = () => {
 
     async function onSubmit(values: typeof initialValues){
 
-        const datePlanned = new Date(values.datePlanned).toISOString()
         const withItems = searchParams.get("withItems")
 
-        const response = await call<Activity>("/activity/create", "POST", {...values, datePlanned})
+        const response = await call<Activity>("/activity/create", "POST", values)
 
         if(response.error) {
-            alert(`An Error Occurred: ${response.message}`)
-            return
+            return alert(`An Error Occurred: ${response.message}`)
         }
 
         const activityId = response.data.id
@@ -108,10 +104,6 @@ const newActivity: React.FC = () => {
                         <div  className={showOptional ? styles.show : styles.hide}>
                             <label htmlFor="venue">Venue</label>
                             <Field name="venue" value={values.venue} onChange={handleChange}/>
-                        </div>
-                        <div  className={showOptional ? styles.show : styles.hide}>
-                            <label htmlFor="datePlanned">Date Planned</label>
-                            <Field type="date" name="datePlanned" value={values.datePlanned} onChange={handleChange}/>
                         </div>
                         <div  className={showOptional ? styles.show : styles.hide}>
                             <label htmlFor="description">Description</label>

@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import styles from "./styles.module.scss"
 import ItemForm from '@/components/ItemForm'
-import { call } from '@/utils/call'
 import { Item } from '@/store/slices/activitySlice'
 import ShoppingListItem from '@/components/ShoppingListItem'
 import ChooseActivityModal from '@/components/Modals/ChooseActivity'

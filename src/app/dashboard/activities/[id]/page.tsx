@@ -13,23 +13,27 @@ import Link from 'next/link'
 const activityPage: React.FC = () => {
 
     const [activity, setActivity] = useState<Activity>()
-    const [items, setItems] = useState<Item[]>([])
     const pathname = usePathname()
     const activities = useAppSelector(selectActivities)
 
-
-    useEffect(() => {
-
+    function getActivity(){
         const pathnameArray = pathname.split("/")
 
         const id = pathnameArray[pathnameArray.length-1]
 
-        const activity = activities.filter((activity) => activity.id === id)
+        const activity = activities.filter((activity) => activity.id === id)[0]
 
-        setActivity(activity[0])
-        setItems(activity[0]?.items || [])
+        return activity
+    }
+
+    useEffect(() => {
+
+        const activity = getActivity()
+        setActivity(activity)
 
     }, [activities, activity])
+
+    if(!activity) return <h1>Loading...</h1>
 
     return (
         <div className={styles.activity}>
@@ -40,14 +44,16 @@ const activityPage: React.FC = () => {
                 <div><b>Venue: </b>{activity?.venue}</div>
             </div>
             <div>
-                <button className="bg-red-500 text-white py-1 px-3 rounded-md"><Link href={`${pathname}/start`}>Start</Link></button>
+                <button className="bg-red-500 text-white py-1 px-3 rounded-md">
+                    <Link href={`${pathname}/start`}>Start</Link>
+                </button>
             </div>
             <section>
                 <div className='mr-4'>
                     <ItemForm activity={activity} />
                 </div>
                 <h2 className='mt-4'>Items</h2>
-               <ItemList items={items} setItems={setItems}/>
+               <ItemList activity={activity} />
             </section>
         </div>
     )

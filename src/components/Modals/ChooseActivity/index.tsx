@@ -30,19 +30,14 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal }) => {
 
         const activityId = selectedActivity.id
 
-        let errorArray: string[] = []
-
         const serverItems = await callAddToActivity(selectedItems, activityId)
 
         for(let item of serverItems){
             dispatch(deleteShoppingItem(item))
         }
 
-        // TODO: This error validation is no longer valid. Come up with better error validation
-        if(errorArray.length <= 0){
-           dispatch(deleteActivity(selectedActivity))
-           dispatch(addActivity({...selectedActivity, items: [...selectedItems, ...selectedActivity.items]}))
-        }
+        dispatch(deleteActivity(selectedActivity))
+        dispatch(addActivity({...selectedActivity, items: [...selectedItems, ...selectedActivity.items]}))
 
         dispatch(clearSelected())
         setShowModal(false)
@@ -59,6 +54,7 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal }) => {
         const response = await call<Item>(`/item/edit/${item.id}`, "PATCH", { activityId })
 
         if(!response.error) fItems.push(response.data)
+        if(response.error) alert(response.message)
 
         return callAddToActivity(items.slice(1, items.length), activityId, fItems)
     }

@@ -42,7 +42,7 @@ const Signin = () => {
     }
 
     setToken(response.data.access_token)
-    // setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OGFiZGRlZC1iZWQ5LTQ1NDctYWRiNi1jMjQwOTgxNTQxYmQiLCJlbWFpbCI6ImRhbmllbGRlcnUzQGdtYWlsLmNvbSIsImlhdCI6MTY4NTkwMzc4MCwiZXhwIjoxNjg1OTkwMTgwfQ.o8Tpilog7LqEcAUb5mim1aElwP5C-cyZGJREgNZJ-Gg")
+    
 
     router.push("/dashboard")
 
