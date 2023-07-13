@@ -1,6 +1,7 @@
 import styles from "./style.module.scss"
-import { useAppSelector } from "@/store/hooks"
-import { selectActivities, Activity } from "@/store/slices/activitySlice"
+import { Activity } from "@/store/slices/activitySlice"
+import useActivities from "@/hooks/activities"
+
 
 interface Props {
   getActivity?: (activity: Activity) => Activity
@@ -8,7 +9,7 @@ interface Props {
 
 const ActivityList: React.FC<Props> = ({ getActivity }) => {
 
-  const activities = useAppSelector(selectActivities)
+  const activities = useActivities()
 
   return (
     <div className={styles.activityList}>

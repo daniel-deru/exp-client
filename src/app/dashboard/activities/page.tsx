@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { useAppSelector, useAppDispatch } from "@/store/hooks"
-import { selectActivities, Activity, deleteActivity } from "@/store/slices/activitySlice"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
+import { Activity, deleteActivity, selectActivities } from "@/store/slices/activitySlice"
 import styles from "./style.module.scss"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { FaRegPlayCircle, FaRegTimesCircle } from "react-icons/fa"
 import { call } from "@/utils/call"
+import fetchActivities from "@/utils/fetchActivities"
+import { useEffect } from "react"
 
 
 
@@ -43,6 +44,10 @@ const activities = () => {
         }
     }
 
+    useEffect(() => {
+        fetchActivities(activities, dispatch)
+    }, [])
+
     return (
         <section className={styles.activities}>
             <div>
@@ -77,8 +82,6 @@ const activities = () => {
                                 <span className="bg-slate-500 text-white py-1 px-3 rounded-md">Delete</span>
                             </button>
                         </div>
-
-
                     </div>
                 ))}
             </div>

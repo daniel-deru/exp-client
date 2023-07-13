@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react"
 import styles from "./tiles.module.scss"
-import { useAppSelector } from "@/store/hooks"
-import { selectActivities } from "@/store/slices/activitySlice"
+import useActivities from "@/hooks/activities"
 
 const Tiles = () => {
 
-    const activities = useAppSelector(selectActivities)
+    const activities = useActivities()
 
     function avgItemPerActivity(){
         let itemCount = 0

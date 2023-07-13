@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { Activity, Item, addItem, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, Item } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
 import { Field, Form, Formik, ErrorMessage } from 'formik'
 import React, { useRef } from 'react'
@@ -7,12 +7,13 @@ import * as yup from "yup"
 import styles from "./style.module.scss"
 import { addShoppingItem, selectItems } from '@/store/slices/shoppingItemSlice'
 import { deleteActivity, addActivity } from '@/store/slices/activitySlice'
+import { selectActivities } from '@/store/slices/activitySlice'
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Required"),
     price: yup.string(),
     quantity: yup.string(),
-    paid: yup.string(),
+    completed: yup.string(),
     type: yup.string(),
     tag: yup.string()
 })
@@ -20,7 +21,7 @@ const initialValues = {
     name: "",
     price: "",
     quantity: "1",
-    paid: "No",
+    completed: "No",
     type: "Product",
     tag: ""
 }
@@ -43,11 +44,11 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
 
         if(existingItem !== undefined) return alert("Looks like this item is already in the shopping list.")
         
-        const paid = values.paid === "Yes" ? true : false
+        const completed = values.completed === "Yes" ? true : false
         const quantity = parseInt(values.quantity)
         const price = parseFloat(values.price)
         const activityId = activity?.id ? activity.id : ""
-        const response = await call<Item>("/item/create/" + activityId, "POST", {...values, paid, quantity, price})
+        const response = await call<Item>("/item/create/" + activityId, "POST", {...values, completed, quantity, price})
 
         if(response.error) {
             return alert(response.message) 
@@ -55,6 +56,7 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
 
         if(!activityId){
             dispatch(addShoppingItem(response.data))
+            console.log("This should be updating the data in the shopping items hook")
         } 
         else {
             const activity = activities.filter(activity => activity.id === activityId)[0]

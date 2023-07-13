@@ -10,7 +10,7 @@ export interface Item {
     price: number
     name: string
     planned: boolean
-    paid: boolean
+    completed: boolean
     quantity: number
     type: ItemType
     tag?: string

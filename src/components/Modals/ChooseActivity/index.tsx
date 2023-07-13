@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { Activity, Item, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, Item } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
 import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 import { addItems, deleteActivity, addActivity } from '@/store/slices/activitySlice'
+import useActivities from '@/hooks/activities'
 
 import ModalWrapper from '../ModalWrapper'
 import { selectShoppingListSelected, clearSelected } from '@/store/slices/shoppingListSelected'
@@ -20,7 +21,7 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal }) => {
 
     const dispatch = useAppDispatch()
 
-    const activities = useAppSelector(selectActivities)
+    const activities = useActivities()
     const selectedItems = useAppSelector(selectShoppingListSelected)
 
 

@@ -2,18 +2,20 @@
 
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { useAppSelector } from '@/store/hooks'
-import { Activity, Item, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, selectActivities } from '@/store/slices/activitySlice'
 import styles from "./style.module.scss"
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
 import Link from 'next/link'
+import fetchActivities from '@/utils/fetchActivities'
 
 const activityPage: React.FC = () => {
 
     const [activity, setActivity] = useState<Activity>()
     const pathname = usePathname()
+    const dispatch = useAppDispatch()
     const activities = useAppSelector(selectActivities)
 
     function getActivity(){
@@ -27,7 +29,7 @@ const activityPage: React.FC = () => {
     }
 
     useEffect(() => {
-
+        fetchActivities(activities, dispatch)
         const activity = getActivity()
         setActivity(activity)
 
