@@ -7,6 +7,7 @@ import styles from "./start.module.scss"
 import ShopItemModal from '@/components/Modals/ShopItemModal/ShopItemModal'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import fetchActivities from '@/utils/fetchActivities'
+import { getCookie, setCookie, deleteCookie } from '@/utils/cookie'
 
 export interface ItemComplete extends Item {
     completed: boolean
@@ -30,7 +31,7 @@ const activityStart = () => {
     const activities = useAppSelector(selectActivities)
 
     function handleComplete(event: React.ChangeEvent<HTMLInputElement>, itemIndex: number){
-
+        // TODO: set the cooke with the updated data.
         setItems(prevItems => {
             prevItems[itemIndex].completed = event.target.checked
             return [...prevItems]
@@ -45,22 +46,23 @@ const activityStart = () => {
     function completePressed(){
         // router.push("/dashboard/activities")
         console.log(activities)
-        // TODO: update the activity on the server
+        // TODO: call API to update data
+        deleteCookie("activeActivity")
     }
 
     useEffect(() => {
-
-        fetchActivities(activities, dispatch)
         const id = pathname.split("/")[3]
-        const activity = activities.filter(activity => activity.id === id)[0]
+        const activityCookie = getCookie<Activity>("activeActivity")
+        const noActivity = !activityCookie || typeof activityCookie === "string"
 
-        if(activity instanceof Object){
-            // const itemList: ItemComplete[] = activity.items.map(item => ({...item, completed: false}))
-
-            setCurrentActivity(activity)
-            setItems(activity.items)
+        if(noActivity|| activityCookie.id !== id) {
+            router.push(`/dashboard/activities/${id}`)
         }
-        
+        else {
+            setCurrentActivity(activityCookie)
+            setItems(activityCookie.items)
+        }
+
     }, [activities])
     console.log(items)
 

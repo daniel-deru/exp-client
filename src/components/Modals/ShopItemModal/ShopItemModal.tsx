@@ -4,7 +4,7 @@ import { ItemComplete, ItemDetail } from '@/app/dashboard/activities/[id]/start/
 import styles from "./shopItem.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { deleteActivity, addActivity, selectActivities, Item } from '@/store/slices/activitySlice'
-import { call } from '@/utils/call'
+import { getCookie, setCookie } from '@/utils/cookie'
 
 interface Props {
     setItemDetail: React.Dispatch<React.SetStateAction<boolean>>
@@ -55,11 +55,6 @@ const ShopItemModal: React.FC<Props> = ({ setItemDetail, item, setItems, showIte
             updatedItem.quantity = quantity
             updateValues.quantity = quantity
         }
-
-        // TODO: THis is a scalibility issue need to move this call
-        const response = await call<Item>(`/item/edit/${item?.id}`, "PATCH", updateValues)
-        
-        if(response.error) return alert(response.message)
 
         const activity = activities.filter(act => act.id === updatedItem.activityId)[0]
         

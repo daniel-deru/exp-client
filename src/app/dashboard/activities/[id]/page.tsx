@@ -10,6 +10,8 @@ import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
 import Link from 'next/link'
 import fetchActivities from '@/utils/fetchActivities'
+import { setCookie, getCookie } from '@/utils/cookie'
+import { useRouter } from 'next/navigation'
 
 const activityPage: React.FC = () => {
 
@@ -17,6 +19,7 @@ const activityPage: React.FC = () => {
     const pathname = usePathname()
     const dispatch = useAppDispatch()
     const activities = useAppSelector(selectActivities)
+    const router = useRouter()
 
     function getActivity(){
         const pathnameArray = pathname.split("/")
@@ -26,6 +29,21 @@ const activityPage: React.FC = () => {
         const activity = activities.filter((activity) => activity.id === id)[0]
 
         return activity
+    }
+
+    function startActivity(){
+        if(!activity) return
+
+        const startedActivity = getCookie<Activity>("activeActivity")
+
+        if(startedActivity && typeof startedActivity !== "string"){
+            if(startedActivity.id !== activity.id) {
+                return alert("You Already have an active activity!")
+            }
+        }
+
+        router.push(pathname + "/start")
+        setCookie("activeActivity", JSON.stringify(activity), "1d")
     }
 
     useEffect(() => {
@@ -46,8 +64,11 @@ const activityPage: React.FC = () => {
                 <div><b>Venue: </b>{activity?.venue}</div>
             </div>
             <div>
-                <button className="bg-red-500 text-white py-1 px-3 rounded-md">
-                    <Link href={`${pathname}/start`}>Start</Link>
+                <button 
+                    className="bg-red-500 text-white py-1 px-3 rounded-md" 
+                    onClick={() => startActivity()}
+                >
+                    Start
                 </button>
             </div>
             <section>
