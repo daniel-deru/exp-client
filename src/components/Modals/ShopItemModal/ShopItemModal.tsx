@@ -1,19 +1,17 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ModalWrapper from '../ModalWrapper'
-import { ItemComplete, ItemDetail } from '@/app/dashboard/activities/[id]/start/page'
 import styles from "./shopItem.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { deleteActivity, addActivity, selectActivities, Item } from '@/store/slices/activitySlice'
-import { getCookie, setCookie } from '@/utils/cookie'
+import { setCookie } from '@/utils/cookie'
 
 interface Props {
-    setItemDetail: React.Dispatch<React.SetStateAction<boolean>>
-    showItemDetail: boolean
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+    showModal: boolean
     item: Item | undefined,
-    setItems: React.Dispatch<React.SetStateAction<Item[]>>
 }
 
-const ShopItemModal: React.FC<Props> = ({ setItemDetail, item, setItems, showItemDetail }) => {
+const ShopItemModal: React.FC<Props> = ({ setShowModal, item, showModal }) => {
 
     const priceRef = useRef<HTMLInputElement>(null)
     const quantityRef = useRef<HTMLInputElement>(null)
@@ -21,6 +19,7 @@ const ShopItemModal: React.FC<Props> = ({ setItemDetail, item, setItems, showIte
     const activities = useAppSelector(selectActivities)
     const dispatch = useAppDispatch()
 
+    // Parses value from a ref object to be used
     function parseValue(valueRef: React.RefObject<HTMLInputElement>){
         const valueString = valueRef?.current?.value || ""
 
@@ -31,47 +30,45 @@ const ShopItemModal: React.FC<Props> = ({ setItemDetail, item, setItems, showIte
         return parseFloat(valueString)
     }
 
+    // onClick callback. Confirms and updates the values if changes are needed
     async function update(){
-
-        if(!item) return
-
         const price = parseValue(priceRef)
         const quantity = parseValue(quantityRef)
         
-        let updatedItem = { ...item, completed: true }
+        if(!item) return
+        if(!price || !quantity) return alert("Price or quantity is undefined")
 
-        let updateValues = { 
-            price: item.price, 
-            quantity: item?.quantity,
-            completed: true
-        }
-
-        if(price && price !== updatedItem.price){
-            updatedItem.price = price
-            updateValues.price = price
-        }
-
-        if(quantity && quantity !== updatedItem.quantity){
-            updatedItem.quantity = quantity
-            updateValues.quantity = quantity
-        }
-
+        // Update the necessary data
+        let updatedItem: Item = { ...item, price, quantity, completed: true }
+        
         const activity = activities.filter(act => act.id === updatedItem.activityId)[0]
         
+        if(!activity) return alert("No activity found!")
 
-        if(activity){
-            const otherItems = activity.items.filter(it => it.id !== updatedItem.id)
-            dispatch(deleteActivity(activity))
-            addActivity({...activity, items: [...otherItems, updatedItem]})
-        }
+        // Get the items that aren't changed
+        const otherItems: Item[] = activity.items.filter(it => it.id !== updatedItem.id)
 
+        // create a copy of the state
+        const activityCopy = { ...activity }
 
-        setItemDetail(false)
+        // add the updated item to the activity
+        activityCopy.items = [...otherItems, updatedItem]
+
+        // Set the activity to the cookie since this is where the active item is stored.
+        setCookie("activeActivity", JSON.stringify(activityCopy), "30d")
+
+        // Update the item in the data store
+        // TODO: Find a beter way of doing this
+        dispatch(deleteActivity(activity))
+        dispatch(addActivity({...activity, items: [...otherItems, updatedItem]}))
+
+        // Close the modal
+        setShowModal(false)
         
     }
     
     return (
-        <ModalWrapper showModal={showItemDetail}>
+        <ModalWrapper showModal={showModal}>
             <div className={styles.shopItemModal}>
                 <h1 className="text-center mb-3">Enter Details</h1>
                 <div>

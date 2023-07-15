@@ -23,9 +23,7 @@ const activityPage: React.FC = () => {
 
     function getActivity(){
         const pathnameArray = pathname.split("/")
-
         const id = pathnameArray[pathnameArray.length-1]
-
         const activity = activities.filter((activity) => activity.id === id)[0]
 
         return activity
@@ -33,7 +31,7 @@ const activityPage: React.FC = () => {
 
     function startActivity(){
         if(!activity) return
-
+        // TODO: add the api call that starts the activity
         const startedActivity = getCookie<Activity>("activeActivity")
 
         if(startedActivity && typeof startedActivity !== "string"){
@@ -43,7 +41,7 @@ const activityPage: React.FC = () => {
         }
 
         router.push(pathname + "/start")
-        setCookie("activeActivity", JSON.stringify(activity), "1d")
+        setCookie("activeActivity", JSON.stringify(activity), "30d")
     }
 
     useEffect(() => {

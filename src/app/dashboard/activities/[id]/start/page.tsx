@@ -30,23 +30,30 @@ const activityStart = () => {
     const dispatch = useAppDispatch()
     const activities = useAppSelector(selectActivities)
 
-    function handleComplete(event: React.ChangeEvent<HTMLInputElement>, itemIndex: number){
-        // TODO: set the cooke with the updated data.
-        setItems(prevItems => {
-            prevItems[itemIndex].completed = event.target.checked
-            return [...prevItems]
-        })
+    // Callback for when an item gets checked or unchecked
+    function handleComplete(event: React.ChangeEvent<HTMLInputElement>, item: Item){
+        if(!currentActivity) return alert("Current Activity Not Set")
+
+        const itemIndex = items.findIndex(i => i.id === item.id)
+        const activity: Activity = { ...currentActivity }
 
         if(event.target.checked) {
-            setCurrentItem(items[itemIndex])
             setShowItemDetails(true)
+            activity.items[itemIndex].completed = true
         }
+        else {
+            activity.items[itemIndex].completed = false
+        }
+        
+        setCurrentItem(items[itemIndex])
+        setCookie("activeActivity", JSON.stringify(activity), "30d")
     }
 
+    // When complete button is pressed
     function completePressed(){
         // router.push("/dashboard/activities")
-        console.log(activities)
         // TODO: call API to update data
+        // Things to update: The items and the activity so two calls
         deleteCookie("activeActivity")
     }
 
@@ -54,6 +61,10 @@ const activityStart = () => {
         const id = pathname.split("/")[3]
         const activityCookie = getCookie<Activity>("activeActivity")
         const noActivity = !activityCookie || typeof activityCookie === "string"
+
+        if(activities.length <= 0) {
+            fetchActivities(activities, dispatch)
+        }
 
         if(noActivity|| activityCookie.id !== id) {
             router.push(`/dashboard/activities/${id}`)
@@ -64,22 +75,20 @@ const activityStart = () => {
         }
 
     }, [activities])
-    console.log(items)
 
     return (
         <section className={styles.start}>
             <ShopItemModal
-                showItemDetail={showItemDetails}
-                setItems={setItems}
-                item={currentItem} 
-                setItemDetail={setShowItemDetails}
+                showModal={showItemDetails}
+                setShowModal={setShowItemDetails}
+                item={currentItem}
             />
             <h1>{currentActivity?.name}</h1>
             <ul className="w-full">
-                {[...items].sort((a) => a.completed ? 1 : -1).map((item, index) => (
+                {[...items].sort((a) => a.completed ? 1 : -1).map((item) => (
                     <li className={`w-full flex justify-between ${item.completed ? styles.completed : ""}`} key={item.id}>
                         <span>
-                            <input type="checkbox" onChange={(e) => handleComplete(e, index)} checked={item.completed}/>
+                            <input type="checkbox" onChange={(e) => handleComplete(e, item)} id={item.id} checked={item.completed}/>
                         </span>
                         <span>{item.name}</span>
                         <span>{item.quantity}</span>
