@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { Activity, selectActivities } from '@/store/slices/activitySlice'
 import styles from "./style.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { call } from '@/utils/call'
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
@@ -16,9 +17,11 @@ import { useRouter } from 'next/navigation'
 const activityPage: React.FC = () => {
 
     const [activity, setActivity] = useState<Activity>()
-    const pathname = usePathname()
+
     const dispatch = useAppDispatch()
     const activities = useAppSelector(selectActivities)
+    
+    const pathname = usePathname()
     const router = useRouter()
 
     function getActivity(){
@@ -29,21 +32,40 @@ const activityPage: React.FC = () => {
         return activity
     }
 
-    function startActivity(){
+    async function startActivity(){
         if(!activity) return
-        // TODO: add the api call that starts the activity
+
+        if(activity.items.length <= 0) {
+            return alert("There are no items in this activity to start!")
+        }
+
         const startedActivity = getCookie<Activity>("activeActivity")
 
+        // If the active activity is not the same as the current activity do not start the current activity
+        // since there can only be one active activity at a time.
         if(startedActivity && typeof startedActivity !== "string"){
+            // Check if current activity is the active activity
             if(startedActivity.id !== activity.id) {
                 return alert("You Already have an active activity!")
             }
+            // Go to the activity start page since the current activity is the active activity
+            router.push(pathname + "/start")
+        }
+
+        // The current activity has not been started yet
+        if(!activity.startTime){
+            const response = await call(`/activity/start/${activity.id}`, "POST")
+
+            if(response.error) return alert("Activity could not be started.")
+
+            // Set the current activity as the active activity.
+            setCookie("activeActivity", JSON.stringify(activity), "30d")
         }
 
         router.push(pathname + "/start")
-        setCookie("activeActivity", JSON.stringify(activity), "30d")
     }
 
+    // Check if activities are in state. If not then request activities from server
     useEffect(() => {
         fetchActivities(activities, dispatch)
         const activity = getActivity()
@@ -62,17 +84,23 @@ const activityPage: React.FC = () => {
                 <div><b>Venue: </b>{activity?.venue}</div>
             </div>
             <div>
-                <button 
-                    className="bg-red-500 text-white py-1 px-3 rounded-md" 
-                    onClick={() => startActivity()}
-                >
-                    Start
-                </button>
+
+                {activity.status !== "Finished" && 
+                    <button 
+                        className="bg-red-500 text-white py-1 px-3 rounded-md" 
+                        onClick={() => startActivity()}
+                    >
+                        {activity.startTime ? "Continue" : "Start"}
+                    </button>
+                }
+
             </div>
             <section>
-                <div className='mr-4'>
-                    <ItemForm activity={activity} />
-                </div>
+                {activity.status !== "Finished" && 
+                    <div className='mr-4'>
+                        <ItemForm activity={activity} />
+                    </div>
+                }
                 <h2 className='mt-4'>Items</h2>
                <ItemList activity={activity} />
             </section>

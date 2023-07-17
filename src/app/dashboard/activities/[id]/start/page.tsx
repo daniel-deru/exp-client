@@ -8,6 +8,7 @@ import ShopItemModal from '@/components/Modals/ShopItemModal/ShopItemModal'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import fetchActivities from '@/utils/fetchActivities'
 import { getCookie, setCookie, deleteCookie } from '@/utils/cookie'
+import { call } from '@/utils/call'
 
 export interface ItemComplete extends Item {
     completed: boolean
@@ -50,11 +51,30 @@ const activityStart = () => {
     }
 
     // When complete button is pressed
-    function completePressed(){
-        // router.push("/dashboard/activities")
-        // TODO: call API to update data
+    async function completePressed(){
+
+        const updatedActivity = getCookie<Activity>("activeActivity")
+
+        if(!updatedActivity || typeof updatedActivity === "string") {
+            return alert("There is no updated activity in the cookies")
+        }
+
+        if(!currentActivity) return alert("There is no current activity!")
+
+        const finishResponse = await call(`/activity/finish/${currentActivity.id}`, "POST")
+        
+        if(finishResponse.error) return alert(finishResponse.message)
+
+        updatedActivity.items.forEach( async (item) => {
+            const { completed, price, quantity } = item
+            const response = await call(`item/edit/${item.id}`, "PATCH", { completed, price, quantity })
+
+            if(response.error) alert(response.message)
+        })
+        
         // Things to update: The items and the activity so two calls
         deleteCookie("activeActivity")
+        router.push("/dashboard/activities")
     }
 
     useEffect(() => {
