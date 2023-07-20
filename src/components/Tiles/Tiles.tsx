@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react"
 import styles from "./tiles.module.scss"
-import useActivities from "@/hooks/activities"
+import { selectActivities } from "@/store/slices/activitySlice"
+import fetchActivities from "@/utils/fetchActivities"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
 
 const Tiles = () => {
 
-    const activities = useActivities()
+    const dispatch = useAppDispatch()
+
+    const activities = useAppSelector(selectActivities)
 
     function avgItemPerActivity(){
         let itemCount = 0
@@ -33,6 +37,10 @@ const Tiles = () => {
 
         return total
     }
+
+    useEffect(() => {
+        fetchActivities(activities, dispatch)
+    }, [])
 
     return (
         <div className={styles.tiles}>

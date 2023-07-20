@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { Activity, Item, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, Item, selectActivities, deleteActivity, addActivity } from '@/store/slices/activitySlice'
 import styles from "./start.module.scss"
 import ShopItemModal from '@/components/Modals/ShopItemModal/ShopItemModal'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -59,18 +59,26 @@ const activityStart = () => {
             return alert("There is no updated activity in the cookies")
         }
 
+        // There is no current activity in the redux store
         if(!currentActivity) return alert("There is no current activity!")
 
-        const finishResponse = await call(`/activity/finish/${currentActivity.id}`, "POST")
+        const finishResponse = await call<Activity>(`/activity/finish/${currentActivity.id}`, "POST")
         
         if(finishResponse.error) return alert(finishResponse.message)
 
         updatedActivity.items.forEach( async (item) => {
             const { completed, price, quantity } = item
-            const response = await call(`item/edit/${item.id}`, "PATCH", { completed, price, quantity })
-
+            const response = await call<Item>(`item/edit/${item.id}`, "PATCH", { completed, price, quantity })
             if(response.error) alert(response.message)
         })
+
+        // Create a copy of the updated activity and set the newly
+        const finishedActivity = finishResponse.data
+        finishedActivity.items = updatedActivity.items
+
+        // Update the state so you don't need to refresh the browser
+        dispatch(deleteActivity(finishedActivity))
+        dispatch(addActivity(finishedActivity))
         
         // Things to update: The items and the activity so two calls
         deleteCookie("activeActivity")

@@ -1,6 +1,9 @@
+
+import { useEffect } from "react"
 import styles from "./style.module.scss"
-import { Activity } from "@/store/slices/activitySlice"
-import useActivities from "@/hooks/activities"
+import { Activity, selectActivities } from "@/store/slices/activitySlice"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
+import fetchActivities from "@/utils/fetchActivities"
 
 
 interface Props {
@@ -9,7 +12,12 @@ interface Props {
 
 const ActivityList: React.FC<Props> = ({ getActivity }) => {
 
-  const activities = useActivities()
+  const dispatch = useAppDispatch()
+  const activities = useAppSelector(selectActivities)
+
+  useEffect(() => {
+    fetchActivities(activities, dispatch)
+  }, [])
 
   return (
     <div className={styles.activityList}>

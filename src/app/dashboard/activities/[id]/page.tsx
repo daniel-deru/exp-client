@@ -33,26 +33,23 @@ const activityPage: React.FC = () => {
     }
 
     async function startActivity(){
-        if(!activity) return
+        if(!activity) return alert("There is no current activity!")
 
         if(activity.items.length <= 0) {
             return alert("There are no items in this activity to start!")
         }
 
         const startedActivity = getCookie<Activity>("activeActivity")
+        const hasStartedActivity = startedActivity && typeof startedActivity !== "string"
+        const isValidStartedActivity = hasStartedActivity && startedActivity.id === activity.id
 
         // If the active activity is not the same as the current activity do not start the current activity
         // since there can only be one active activity at a time.
-        if(startedActivity && typeof startedActivity !== "string"){
-            // Check if current activity is the active activity
-            if(startedActivity.id !== activity.id) {
-                return alert("You Already have an active activity!")
-            }
-            // Go to the activity start page since the current activity is the active activity
-            router.push(pathname + "/start")
+        if(!isValidStartedActivity){
+            return alert("You Already have an active activity!")
         }
 
-        // The current activity has not been started yet
+        // The current activity has not been started yet - call the API to start activity
         if(!activity.startTime){
             const response = await call(`/activity/start/${activity.id}`, "POST")
 
