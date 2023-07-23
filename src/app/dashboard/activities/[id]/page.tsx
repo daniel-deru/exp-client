@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Activity, selectActivities } from '@/store/slices/activitySlice'
+import { Activity, deleteActivity, selectActivities, updateActivity } from '@/store/slices/activitySlice'
 import styles from "./style.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { call } from '@/utils/call'
+import validStartActivity from '@/utils/startActivityCheck'
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
@@ -24,6 +25,7 @@ const activityPage: React.FC = () => {
     const pathname = usePathname()
     const router = useRouter()
 
+    // Get the active activity from the id in the URL
     function getActivity(){
         const pathnameArray = pathname.split("/")
         const id = pathnameArray[pathnameArray.length-1]
@@ -32,22 +34,14 @@ const activityPage: React.FC = () => {
         return activity
     }
 
+    // Start the activity if all the necessary conditions are met.
     async function startActivity(){
-        if(!activity) return alert("There is no current activity!")
-
-        if(activity.items.length <= 0) {
-            return alert("There are no items in this activity to start!")
-        }
-
         const startedActivity = getCookie<Activity>("activeActivity")
-        const hasStartedActivity = startedActivity && typeof startedActivity !== "string"
-        const isValidStartedActivity = hasStartedActivity && startedActivity.id === activity.id
+        if(!activity) return alert("No activity is selected!")
 
-        // If the active activity is not the same as the current activity do not start the current activity
-        // since there can only be one active activity at a time.
-        if(!isValidStartedActivity){
-            return alert("You Already have an active activity!")
-        }
+        const validActivity = validStartActivity(activity, startedActivity)
+
+        if(validActivity.error) return alert(validActivity.message)
 
         // The current activity has not been started yet - call the API to start activity
         if(!activity.startTime){
@@ -57,6 +51,7 @@ const activityPage: React.FC = () => {
 
             // Set the current activity as the active activity.
             setCookie("activeActivity", JSON.stringify(activity), "30d")
+            dispatch(updateActivity(response.data))
         }
 
         router.push(pathname + "/start")

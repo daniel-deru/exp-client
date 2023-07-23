@@ -4,7 +4,7 @@ import React from 'react'
 import styles from "./styles.module.scss"
 import { FaRegTimesCircle } from "react-icons/fa"
 import { call } from '@/utils/call'
-import { deleteActivity, addActivity } from "@/store/slices/activitySlice"
+import { updateActivity } from "@/store/slices/activitySlice"
 import { useAppDispatch } from "@/store/hooks"
 
 
@@ -31,10 +31,7 @@ const ItemList: React.FC<Props> = ({ activity }) => {
       const newItems = [...items].filter(curItem => curItem.id !== item.id)
 
       setItems(newItems)
-
-      dispatch(deleteActivity(activity))
-      dispatch(addActivity({...activity, items: newItems}))
-      
+      dispatch(updateActivity({...activity, items: newItems}))      
     }
 
     useEffect(() => {

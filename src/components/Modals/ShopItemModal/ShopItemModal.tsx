@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ModalWrapper from '../ModalWrapper'
 import styles from "./shopItem.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { deleteActivity, addActivity, selectActivities, Item } from '@/store/slices/activitySlice'
+import { selectActivities, Item, updateActivity } from '@/store/slices/activitySlice'
 import { setCookie } from '@/utils/cookie'
 
 interface Props {
@@ -58,9 +58,7 @@ const ShopItemModal: React.FC<Props> = ({ setShowModal, item, showModal }) => {
         setCookie("activeActivity", JSON.stringify(activityCopy), "30d")
 
         // Update the item in the data store
-        // TODO: Find a beter way of doing this
-        dispatch(deleteActivity(activity))
-        dispatch(addActivity({...activity, items: [...otherItems, updatedItem]}))
+        dispatch(updateActivity({...activity, items: [...otherItems, updatedItem]}))
 
         // Close the modal
         setShowModal(false)

@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import styles from "./newActivity.module.scss"
 import { selectShoppingListSelected } from '@/store/slices/shoppingListSelected'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { Activity, Item, addActivity, addItems } from '@/store/slices/activitySlice'
+import { Activity, Item, addActivity } from '@/store/slices/activitySlice'
 import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 
 const validationSchema = yup.object().shape({

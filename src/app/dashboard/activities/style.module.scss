@@ -30,10 +30,14 @@
     width: 90%;
 }
 
-.activityList > div:not(:first-child) > div:last-child {
-    width: 12%;
+.activityList .buttonContainer {
+    width: 20%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+}
+
+.activityList .buttonContainer button:first-child {
+    margin: 0px 5px;
 }
 
 .activityList > div > div {

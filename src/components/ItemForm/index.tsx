@@ -6,7 +6,7 @@ import React, { useRef } from 'react'
 import * as yup from "yup"
 import styles from "./style.module.scss"
 import { addShoppingItem, selectItems } from '@/store/slices/shoppingItemSlice'
-import { deleteActivity, addActivity } from '@/store/slices/activitySlice'
+import { addItemToActivity } from '@/store/slices/activitySlice'
 import { selectActivities } from '@/store/slices/activitySlice'
 
 const validationSchema = yup.object().shape({
@@ -33,13 +33,10 @@ interface Props {
 const ItemForm: React.FC<Props> = ({ activity }) => {
 
     const dispatch = useAppDispatch()
-    const activities = useAppSelector(selectActivities)
     const shoppingListItems = useAppSelector(selectItems)
-
     const nameFieldRef = useRef<HTMLInputElement>(null)
 
     async function createItem(values: typeof initialValues, { resetForm }: any){
-
         const existingItem = shoppingListItems.find(item => item.name.includes(values.name))
 
         if(existingItem !== undefined) return alert("Looks like this item is already in the shopping list.")
@@ -56,12 +53,9 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
 
         if(!activityId){
             dispatch(addShoppingItem(response.data))
-            console.log("This should be updating the data in the shopping items hook")
         } 
         else {
-            const activity = activities.filter(activity => activity.id === activityId)[0]
-            dispatch(deleteActivity(activity))
-            dispatch(addActivity({...activity, items: [...activity.items, response.data]}))
+            dispatch(addItemToActivity(response.data))
         }
 
         resetForm({values: ""})

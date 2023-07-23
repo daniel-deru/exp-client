@@ -48,19 +48,19 @@ export const activitySlice = createSlice({
         addActivity: (state: Activity[], action: PayloadAction<Activity>) => {
            return [...state, action.payload]
         },
-        addItem: (state: Activity[], action: PayloadAction<{activityId: string, item: Item}>) => {
+        // addItem: (state: Activity[], action: PayloadAction<{activityId: string, item: Item}>) => {
 
-            return state.map((activity: Activity) => {
-                if(activity.id === action.payload.activityId){
-                    if(activity.items) {
-                        activity.items = [...activity.items, action.payload.item]
-                    } else {
-                        activity.items = [action.payload.item]
-                    }
-                }
-                return activity
-            })
-        },
+        //     return state.map((activity: Activity) => {
+        //         if(activity.id === action.payload.activityId){
+        //             if(activity.items) {
+        //                 activity.items = [...activity.items, action.payload.item]
+        //             } else {
+        //                 activity.items = [action.payload.item]
+        //             }
+        //         }
+        //         return activity
+        //     })
+        // },
 
         addItems: (state: Activity[], action: PayloadAction<{activityId: string, items: Item[]}>) => {
             const { activityId, items } = action.payload
@@ -82,18 +82,47 @@ export const activitySlice = createSlice({
                 return activity.id !== action.payload.id
             })
         },
-        editItem: (state: Activity[], action: PayloadAction<Item>) => {
-            const item = action.payload
 
-            const activityIndex = state.findIndex(activity => activity.id === item.activityId)
-            const itemIndex = state[activityIndex].items.findIndex(i => i.id === item.id)
+        addItemToActivity: (state: Activity[], action: PayloadAction<Item>) => {
+            const activity = state.find(activity => activity.id === action.payload.activityId)
+            
+            if(!activity) return state
+            
+            activity.items.push(action.payload)
+        },
+        updateItem: (state: Activity[], action: PayloadAction<Item>) => {
+            const activity = state.find(activity => activity.id === action.payload.activityId)
+            
+            if(!activity) return state
 
-            state[activityIndex].items[itemIndex] = {...item}
+            let item = activity.items.find(item => item.id === action.payload.id)
+
+            if(!item) return state
+
+            item = action.payload
+        },
+
+        updateActivity: (state: Activity[], action: PayloadAction<Activity>) => {
+            let activityIndex = state.findIndex(activity => activity.id === action.payload.id)
+
+            if(activityIndex === -1) return state
+
+            state[activityIndex] = { ...state[activityIndex], ...action.payload }
+
+            return state
         }
     }
 })
 
-export const { setActivities, addItem, deleteActivity, addActivity, addItems } = activitySlice.actions
+export const { 
+    setActivities, 
+    addItemToActivity, 
+    deleteActivity, 
+    addActivity, 
+    addItems, 
+    updateItem,
+    updateActivity 
+} = activitySlice.actions
 
 export const selectActivities = (state: RootState) => state.activities
 

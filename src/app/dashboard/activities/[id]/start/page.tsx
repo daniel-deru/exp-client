@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { Activity, Item, selectActivities, deleteActivity, addActivity } from '@/store/slices/activitySlice'
+import { Activity, Item, selectActivities, updateActivity } from '@/store/slices/activitySlice'
 import styles from "./start.module.scss"
 import ShopItemModal from '@/components/Modals/ShopItemModal/ShopItemModal'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -77,8 +77,7 @@ const activityStart = () => {
         finishedActivity.items = updatedActivity.items
 
         // Update the state so you don't need to refresh the browser
-        dispatch(deleteActivity(finishedActivity))
-        dispatch(addActivity(finishedActivity))
+        dispatch(updateActivity(finishedActivity))
         
         // Things to update: The items and the activity so two calls
         deleteCookie("activeActivity")

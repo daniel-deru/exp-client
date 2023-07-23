@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { Activity, Item } from '@/store/slices/activitySlice'
 import { call } from '@/utils/call'
 import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
-import { addItems, deleteActivity, addActivity, selectActivities } from '@/store/slices/activitySlice'
+import { selectActivities, updateActivity } from '@/store/slices/activitySlice'
 import fetchActivities from '@/utils/fetchActivities'
 
 import ModalWrapper from '../ModalWrapper'
@@ -37,9 +37,7 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal }) => {
             dispatch(deleteShoppingItem(item))
         }
 
-        dispatch(deleteActivity(selectedActivity))
-        dispatch(addActivity({...selectedActivity, items: [...selectedItems, ...selectedActivity.items]}))
-
+        dispatch(updateActivity({...selectedActivity, items: [...selectedItems, ...selectedActivity.items]}))
         dispatch(clearSelected())
         setShowModal(false)
         setSelectedActivity(undefined)
