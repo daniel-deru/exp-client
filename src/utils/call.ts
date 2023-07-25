@@ -40,7 +40,6 @@ export async function call<T = any, S = any>(endpoint: string, method: Method, p
 
     } catch (error) {
         if(error instanceof AxiosError) {
-            // alert(error.response?.data.message)
            return { error: true, message: error.response?.data.message }
         }
     }

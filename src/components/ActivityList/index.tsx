@@ -17,6 +17,7 @@ const ActivityList: React.FC<Props> = ({ getActivity }) => {
 
   useEffect(() => {
     fetchActivities(activities, dispatch)
+    console.log("This shouldn't be firing")
   }, [])
 
   return (

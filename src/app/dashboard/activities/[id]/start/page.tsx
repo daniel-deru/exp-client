@@ -10,14 +10,6 @@ import fetchActivities from '@/utils/fetchActivities'
 import { getCookie, setCookie, deleteCookie } from '@/utils/cookie'
 import { call } from '@/utils/call'
 
-export interface ItemComplete extends Item {
-    completed: boolean
-}
-
-export interface ItemDetail {
-    show: boolean,
-    item?: Item
-}
 
 const activityStart = () => {
 
@@ -78,23 +70,23 @@ const activityStart = () => {
 
         // Update the state so you don't need to refresh the browser
         dispatch(updateActivity(finishedActivity))
+
         
         // Things to update: The items and the activity so two calls
         deleteCookie("activeActivity")
-        router.push("/dashboard/activities")
+        router.push(`/dashboard/activities/${finishedActivity.id}`)
     }
 
     useEffect(() => {
         const id = pathname.split("/")[3]
         const activityCookie = getCookie<Activity>("activeActivity")
-        const noActivity = !activityCookie || typeof activityCookie === "string"
 
         if(activities.length <= 0) {
             fetchActivities(activities, dispatch)
         }
 
-        if(noActivity|| activityCookie.id !== id) {
-            router.push(`/dashboard/activities/${id}`)
+        if(!activityCookie || typeof activityCookie === "string" || activityCookie.id !== id) {
+            router.push(`/dashboard/activities/`)
         }
         else {
             setCurrentActivity(activityCookie)

@@ -4,6 +4,13 @@
     width: 85%;
 }
 
+.name {
+    width: 40%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
 .activityListHeader {
     display: flex;
     width: 100%;
@@ -30,48 +37,26 @@
     width: 90%;
 }
 
-.activityList .buttonContainer {
-    width: 20%;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.activityList .buttonContainer button:first-child {
-    margin: 0px 5px;
-}
-
 .activityList > div > div {
     display: flex;
 }
 
-.activityList .name {
-    width: 40%;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    white-space: nowrap;
-}
-
-.activityList > div > div > div {
-    width: 15%;
-}
-
 .activityList svg {
-    // color: red;
     font-size: 1.25rem;
 }
 
 @media screen and (max-width: 700px) {
+    .activities {
+        margin: 0px auto;
+        width: 90%;
+    }
+
     .status {
         display: none;
     }
 
-    .activityList .name {
+    .name {
         width: 40%;
-    }
-
-    .activities {
-        margin: 0px auto;
-        width: 90%;
     }
 }
 
@@ -87,7 +72,7 @@
         display: none;
     }
 
-    .activityList .name {
+    .name {
         width: 80%;
     }
 }

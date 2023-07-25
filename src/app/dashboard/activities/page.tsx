@@ -1,79 +1,78 @@
 "use client"
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks"
-import { Activity, deleteActivity, selectActivities, updateActivity } from "@/store/slices/activitySlice"
+import { Activity, selectActivities } from "@/store/slices/activitySlice"
 import styles from "./style.module.scss"
-import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
-import { FaRegPlayCircle, FaRegTimesCircle } from "react-icons/fa"
-import { call } from "@/utils/call"
 import fetchActivities from "@/utils/fetchActivities"
 import { useEffect } from "react"
-import validStartActivity from "@/utils/startActivityCheck"
-import { getCookie, setCookie } from "@/utils/cookie"
+import ActivityPageListItem from "@/components/ActivityPageListItem/ActivityPageListItem"
 
+const statusOrder = {
+    "Active": 0,
+    "Pending": 1,
+    "Finished": 2,
+    "Cancelled": 3
+}
+
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
+
+const monthOrder: {[key: string]: number} = {
+    "January": 0, 
+    "February": 1, 
+    "March": 2, 
+    "April": 3, 
+    "May": 4, 
+    "June": 5,
+    "July": 6, 
+    "August": 7, 
+    "September": 8, 
+    "October": 9, 
+    "November": 10, 
+    "December": 11
+}
 
 const activities = () => {
 
     const activities = useAppSelector(selectActivities)
     const dispatch = useAppDispatch()
-    const router = useRouter()
-    const pathname = usePathname()
 
-    function activityTotal(activity: Activity){
-        let total = 0
-
-        for(let item of activity.items){
-            total += (item.price * item.quantity)
-        }
-
-        return total
+    function arrangeActivities(a: Activity, b: Activity): number{
+        return statusOrder[a.status] - statusOrder[b.status]
     }
 
-    function goToActivityPage(id: string){
-        router.push(`/dashboard/activities/${id}`)
-    }
+    function sortByDate(activities: Activity[]): [string, Activity[]][] {
+        const activityDisplayList: { [key: string]: Activity[] } = {}
+        const currentYear = new Date().getFullYear()
 
-    async function removeActivity(activity: Activity){
-        if(activity.startTime && !activity.endTime) {
-            return alert("This activity is still active. Please complete the activity before you can delete it.")
+        const filteredActivities = activities.filter(activity => {
+            const activityYear = new Date(activity.createdAt).getFullYear()
+            return activityYear === currentYear
+        })
+
+        for(let activity of filteredActivities) {
+            const dateString = activity.endTime ? activity.endTime : activity.createdAt
+
+            const monthIndex = new Date(dateString).getMonth()
+            const month = monthNames[monthIndex]
+
+            if(month in activityDisplayList) {
+                activityDisplayList[month].push(activity)
+            } 
+            else {
+                activityDisplayList[month] = [activity]
+            }
         }
 
-        const confirmDelete = confirm("Are You sure")
+        const sortByMonth = (a: [string, Activity[]], b: [string, Activity[]]) => monthOrder[a[0]] - monthOrder[b[0]]
 
-        if(!confirmDelete) return
-
-        const response = await call(`activity/delete/${activity.id}`, "DELETE")
-
-        if(!response.error){
-            dispatch(deleteActivity(activity))
-        }
-    }
-
-    async function startActivity(activity: Activity | undefined){
-        const startedActivity = getCookie<Activity>("activeActivity")
-
-        if(!activity) return alert("No activity Found!")
-
-        const validActivity = validStartActivity(activity, startedActivity)
-
-        if(validActivity.error) return alert(validActivity.message)
-
-        // // The current activity has not been started yet - call the API to start activity
-        if(!activity.startTime){
-            const response = await call<Activity>(`/activity/start/${activity.id}`, "POST")
-
-            if(response.error) return alert("Activity could not be started.")
-            // Set the current activity as the active activity.
-            setCookie("activeActivity", JSON.stringify(activity), "30d")
-            dispatch(updateActivity(response.data))
-        }
-
-        router.push(`${pathname}/${activity.id}/start`)
+        return Object.entries(activityDisplayList).sort(sortByMonth)
     }
 
     useEffect(() => {
-        console.log("FETCHING ACTIVITIES")
         fetchActivities(activities, dispatch)
     }, [])
 
@@ -84,33 +83,22 @@ const activities = () => {
                 <button className="ml-2 bg-amber-500 text-white py-1 px-3 rounded-md"><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
             </div>
 
-            <div className={styles.activityListHeader}>
+            {/* <div className={styles.activityListHeader}>
                 <div className={styles.name}>Name</div>
                 <div className={styles.status}>Status</div>
                 <div className={styles.items}>Items</div>
                 <div>Total</div>
-            </div>
-            <div className={styles.activityList}>
-                {activities.map((activity: Activity) => (
-                    <div key={activity.id}  className={`border-slate-300 border-solid border-2 rounded-md cursor-pointer hover:border-sky-700`}>
-                        <div onClick={() => goToActivityPage(activity.id)}>
-                            <div className={styles.name}>{activity.name}</div>
-                            <div className={styles.status}>{activity.status}</div>
-                            <div className={styles.items}>{activity.items?.length || 0}</div>
-                            <div>{activityTotal(activity)}</div>
+            </div> */}
+            <div >
+                {sortByDate(activities).map((displayList) => (
+                   <div key={displayList[0]}>
+                        <div className="mt-2 border-b-2 border-solid border-black mr-5">{displayList[0]}</div>
+                        <div className={styles.activityList}>
+                            {[...displayList[1]].sort(arrangeActivities).map(activity => (
+                                <ActivityPageListItem activity={activity} key={activity.id}/>
+                            ))}
                         </div>
-                        <div className={styles.buttonContainer}>
-                            <button className="text-sky-700" onClick={() => startActivity(activity)}>
-                                <span className="bg-sky-700 text-white py-1 px-3 rounded-md">
-                                    {activity.startTime && !activity.endTime ? "Continue" : "Start"}
-                                </span>
-                            </button>
-                            <button className="text-red-500" onClick={() => removeActivity(activity)}>
-                                {/* <FaRegTimesCircle /> */}
-                                <span className="bg-slate-500 text-white py-1 px-3 rounded-md">Delete</span>
-                            </button>
-                        </div>
-                    </div>
+                   </div>
                 ))}
             </div>
         </section>

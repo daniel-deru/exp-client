@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getToken } from "@/utils/token"
 import styles from "./dashboard.module.scss"
@@ -10,19 +10,24 @@ import ActivityList from "@/components/ActivityList"
 import Link from "next/link"
 
 const Dashboard = () => {
-
+  const [ loggedIn, setLoggedIn ] = useState(false)
   const router = useRouter()
 
   function authorize(){
     const token = getToken()
     if(!token) router.push("/signin")
-    else if(token) router.push('/dashboard')
+    else if(token) {
+      setLoggedIn(true)
+      router.push('/dashboard')
+    } 
   }
 
   useEffect(() => {
     authorize()
    
   }, [])
+
+  if(!loggedIn) return <h1>You are not logged in.</h1>
 
   return (
     <div className={styles.home}>

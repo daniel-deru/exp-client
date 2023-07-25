@@ -1,0 +1,43 @@
+.name {
+    width: 20%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.status {
+    width: 20%;
+}
+
+.items {
+    width: 15%;
+}
+
+.buttonContainer {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonContainer button:first-child {
+    margin: 0px 5px;
+}
+
+@media screen and (max-width: 700px) {
+    .status {
+        display: none;
+    }
+
+    .name {
+        width: 40%;
+    }
+}
+@media screen and (max-width: 350px) {
+    .items {
+        display: none;
+    }
+
+    .name {
+        width: 80%;
+    }
+}

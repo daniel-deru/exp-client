@@ -73,7 +73,7 @@ const newActivity: React.FC = () => {
             dispatch(deleteShoppingItem(item))
         }
 
-        router.push('/dashboard/activities')
+        router.push(`/dashboard/activities/${activityId}`)
         
     }
 
