@@ -11,6 +11,7 @@ import { selectShoppingListSelected,  } from '@/store/slices/shoppingListSelecte
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { selectItems, setShoppingItems } from '@/store/slices/shoppingItemSlice'
 import { call } from '@/utils/call'
+import sumItems from '@/utils/calc/sum'
 
 const shopping = () => {
   const [showActivityList, setShowActivityList] = useState<boolean>(false)
@@ -60,6 +61,9 @@ const shopping = () => {
 
         <ChooseActivityModal showModal={showActivityList} setShowModal={setShowActivityList} />
         <h1 className='text-2xl'>Shopping List</h1>
+        <div className='mt-2'>
+          <div><b>Total: </b>{sumItems(shoppingItems)}</div>
+        </div>
         <div>
           <button className="bg-sky-700 text-white my-2 py-1 px-3 rounded-md" onClick={() => addToActivity()}>Add To Activity</button>
           <button className="bg-amber-500 text-white m-2 py-1 px-3 rounded-md" onClick={() => newActivity()}>Create Activity</button>

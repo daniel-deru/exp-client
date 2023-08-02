@@ -34,10 +34,8 @@ const Signin = () => {
 
     const response = await call<{access_token: string}>('/user/signin', "POST", values)
     
-    
     if(response.error){
-      alert(response.message)
-      
+      alert(`There has been some kind of error while trying to sign in: ${response.message}`)
       return setError(response.message)
     }
 

@@ -8,6 +8,7 @@
 
 .dashboard nav {
     height: 85vh;
+    border-radius: 0.75rem;
 }
 
 .dashboard nav ul li:hover {
@@ -98,7 +99,8 @@
 
 @media screen and (max-width: 450px) {
     .dashboard {
-        width: 50%;
+        width: 100%;
+        min-width: 100%;
         position: absolute;
         margin: 0px;
         height: 100vh;
@@ -109,17 +111,31 @@
         display: block;
     }
 
+    .dashboard nav {
+        height: 100vh;
+        border-radius: 0px;
+    }
+
     .dashboard nav ul li a {
         justify-content: left;
     }
 
+    .dashboard nav ul .active:first-child {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+
     .open {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        top: 0;
         left: 0;
         transition: 0.5s ease-in;
     }
 
     .closed {
+        top: 0;
         left: -100%;
-        transition: 1s ease-out;
+        transition: 0.5s ease-out;
     }
 }

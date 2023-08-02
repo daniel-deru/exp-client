@@ -82,13 +82,6 @@ const activities = () => {
                 <span>Activities</span>
                 <button className="ml-2 bg-amber-500 text-white py-1 px-3 rounded-md"><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
             </div>
-
-            {/* <div className={styles.activityListHeader}>
-                <div className={styles.name}>Name</div>
-                <div className={styles.status}>Status</div>
-                <div className={styles.items}>Items</div>
-                <div>Total</div>
-            </div> */}
             <div >
                 {sortByDate(activities).map((displayList) => (
                    <div key={displayList[0]}>

@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/store/hooks"
-import { Activity, deleteActivity, updateActivity } from "@/store/slices/activitySlice"
+import { Activity, Status, deleteActivity, updateActivity } from "@/store/slices/activitySlice"
 import { call } from "@/utils/call"
 import { getCookie, setCookie } from "@/utils/cookie"
 import validStartActivity from "@/utils/startActivityCheck"
@@ -64,14 +64,34 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
       router.push(`${pathname}/${activity.id}/start`)
       console.log("After Start Function")
   }
+
+  // Create a tailwind class to reflect correct color based on Status of Activity
+  function statusColor(status: Status): string {
+    let styleClass = ""
+
+    switch (status) {
+      case "Active":
+        styleClass = "text-emerald-500 font-bold"
+        break
+      case "Pending":
+        styleClass = "text-yellow-500 font-bold"
+        break
+      case "Finished":
+        styleClass ="text-blue-500 font-bold"
+        break
+    }
+
+    return styleClass
+  }
+
   return (
     <div key={activity.id}  className={`border-slate-300 border-solid border-2 rounded-md cursor-pointer hover:border-sky-700`}>
         <div onClick={() => goToActivityPage(activity.id)}>
             <div className={styles.name}>{activity.name}</div>
-            <div className={`${styles.status} ${activity.status.toLowerCase()} flex items-center`}>
+            <div className={`${styles.status} ${statusColor(activity.status)} flex items-center`}>
               <div className="w-20">{activity.status}</div>
               
-              <div className="ml-2">
+              <div className={`ml-2 ${statusColor(activity.status)}`}>
                 {activity.status === "Active" && <BiPlay  />}
                 {activity.status === "Finished" && <BiCheck />}
                 {activity.status === "Pending" && <BiHourglass size={15} />}

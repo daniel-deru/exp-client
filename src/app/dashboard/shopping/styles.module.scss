@@ -7,13 +7,13 @@
 }
 
 .list {
-    height: 60vh;
+    height: 55vh;
     overflow-y: auto;
 }
 
 @media screen and (max-width: 500px) {
     .shoppingList {
-        width: 95vw;
+        width: 75vw;
         margin: auto;
     }
 }

@@ -23,3 +23,10 @@
 .start li > *:first-child {
     width: 10%;
 }
+
+@media screen and (max-width: 450px) {
+    .start {
+        width: 90%;
+        margin: auto;
+    }
+}

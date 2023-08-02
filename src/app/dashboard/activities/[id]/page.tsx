@@ -7,6 +7,7 @@ import styles from "./style.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { call } from '@/utils/call'
 import validStartActivity from '@/utils/startActivityCheck'
+import sumItems from '@/utils/calc/sum'
 
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
@@ -69,11 +70,11 @@ const activityPage: React.FC = () => {
 
     return (
         <div className={styles.activity}>
-            <h1 className='text-2xl my-4'>{activity?.name}</h1>
+            <h1 className='text-2xl my-4 text-center'>{activity?.name}</h1>
             <p>{activity?.description}</p>
             <div className='flex justify-around my-4'>
                 <div><b>Status: </b>{activity?.status}</div>
-                <div><b>Venue: </b>{activity?.venue}</div>
+                <div><b>Total: </b>{sumItems(activity.items)}</div>
             </div>
             <div>
 
