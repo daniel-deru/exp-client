@@ -1,3 +1,5 @@
+@use "@/styles/colors" as colors;
+
 .name {
     width: 20%;
     text-overflow: ellipsis;
@@ -7,6 +9,10 @@
 
 .status {
     width: 20%;
+}
+
+.mobile {
+    display: none;
 }
 
 .items {
@@ -23,6 +29,14 @@
     margin: 0px 5px;
 }
 
+.statusActive {
+    color: colors.$secondary;
+}
+
+.statusPending {
+    color: colors.$primary;
+}
+
 @media screen and (max-width: 700px) {
     .status {
         display: none;
@@ -30,6 +44,15 @@
 
     .name {
         width: 40%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .mobile {
+        display: block;
+    }
+    .desktop {
+        display: none;
     }
 }
 @media screen and (max-width: 350px) {

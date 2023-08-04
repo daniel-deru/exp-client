@@ -9,11 +9,13 @@
 .dashboard nav {
     height: 85vh;
     border-radius: 0.75rem;
+    background-color: colors.$primary;
+    color: white;
 }
 
 .dashboard nav ul li:hover {
-    background-color: colors.$blue-dark;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .dashboard nav ul li:hover:first-child {
@@ -34,8 +36,8 @@
 }
 
 .dashboard nav ul .active {
-    background-color: colors.$blue-dark;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .dashboard nav ul .active:first-child {
@@ -107,6 +109,10 @@
         border-radius: 0px;
     }
 
+    .dashboard nav ul li {
+        margin-top: 1rem;
+    }
+
     .dashboard nav ul li div {
         display: block;
     }
@@ -135,7 +141,7 @@
 
     .closed {
         top: 0;
-        left: -100%;
+        left: 100%;
         transition: 0.5s ease-out;
     }
 }

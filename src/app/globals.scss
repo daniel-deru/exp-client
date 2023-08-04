@@ -1,5 +1,5 @@
 @use "../styles/colors" as colors;
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Nunito&family=Roboto&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Nunito&family=Roboto&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -17,18 +17,20 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: colors.$blue-dark;
+  background: colors.$primary;
   border-radius: 10px;
 }
 
 html, body {
   width: 100vw;
   overflow-x: hidden;
-  font-family: 'Nunito';
+  font-family: 'Arial';
+  overflow-y: hidden;
 }
 
 @media screen and (max-width: 450px) {
   html, body {
     font-size: 1.1em;
+    overflow-x: hidden;
   }
 }

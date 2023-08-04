@@ -1,6 +1,6 @@
 import styles from "./dashboardnav.module.scss"
 import Link from "next/link"
-import { FaHome, FaShoppingCart, FaTasks, FaChartLine, FaUserAlt } from "react-icons/fa"
+import { FaHome, FaShoppingCart, FaTasks, FaChartLine, FaUserAlt, FaTimes } from "react-icons/fa"
 import { BsGearFill } from "react-icons/bs"
 import { motion } from "framer-motion"
 import { useAppSelector, useAppDispatch } from "@/store/hooks"
@@ -17,7 +17,10 @@ const DashboardNav = () => {
     <motion.aside 
       className={`${styles.dashboard} ${showNav ? styles.open : styles.closed}`}
     >
-        <nav className="text-center bg-slate-300">
+        <nav className="text-center">
+            <div className="flex p-4 justify-end text-3xl">
+              <FaTimes onClick={() => dispatch(toggleNav())}/>
+            </div>
             <ul className="">
                 <li className={pathname === "/dashboard" ? styles.active : ""}>
                   <Link href={"/dashboard"} onClick={() => dispatch(toggleNav())}>

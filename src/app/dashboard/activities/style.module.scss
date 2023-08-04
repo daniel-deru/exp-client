@@ -4,6 +4,10 @@
     width: 85%;
 }
 
+.activities > div > button {
+    background-color: colors.$secondary;
+}
+
 .name {
     width: 40%;
     text-overflow: ellipsis;
@@ -63,11 +67,20 @@
 @media screen and (max-width: 500px) {
     .activities {
         margin: 0px auto;
-        width: 80%;
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .activityList {
+        margin-right: 0px
     }
 }
 
 @media screen and (max-width: 350px) {
+
+
+
     .items {
         display: none;
     }

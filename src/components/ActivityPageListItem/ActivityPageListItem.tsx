@@ -6,6 +6,8 @@ import validStartActivity from "@/utils/startActivityCheck"
 import { usePathname, useRouter } from "next/navigation"
 import styles from "./styles.module.scss"
 import { BiPlay, BiCheck, BiHourglass } from "react-icons/bi"
+import { MdDelete, MdOutlineDelete } from "react-icons/md"
+import { VscDebugContinue, VscDebugStart } from "react-icons/vsc"
 
 
 interface IProps {
@@ -42,7 +44,6 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
   }
 
   async function startActivity(activity: Activity | undefined){
-      console.log("Before Start Function")
       const startedActivity = getCookie<Activity>("activeActivity")
 
       if(!activity) return alert("No activity Found!")
@@ -62,7 +63,6 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
       }
 
       router.push(`${pathname}/${activity.id}/start`)
-      console.log("After Start Function")
   }
 
   // Create a tailwind class to reflect correct color based on Status of Activity
@@ -103,13 +103,16 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
         </div>
         <div className={styles.buttonContainer}>
             <button className="text-sky-700" onClick={() => startActivity(activity)}>
-                <span className="bg-sky-700 text-white py-1 px-3 rounded-md">
+                <span className={`${styles.mobile} ${activity.status === "Active" ? styles.statusActive : styles.statusPending} mr-2`}>
+                  {activity.status === "Active" ? <VscDebugContinue/> : <VscDebugStart />}
+                </span>
+                <span className={`bg-sky-700 text-white py-1 px-3 rounded-md ${styles.desktop}`}>
                     {activity.startTime && !activity.endTime ? "Continue" : "Start"}
                 </span>
             </button>
             <button className="text-red-500" onClick={() => removeActivity(activity)}>
-                {/* <FaRegTimesCircle /> */}
-                <span className="bg-slate-500 text-white py-1 px-3 rounded-md">Delete</span>
+                <span className={styles.mobile}><MdOutlineDelete /></span>
+                <span className={`bg-slate-500 text-white py-1 px-3 rounded-md ${styles.desktop}`}>Delete</span>
             </button>
         </div>
     </div>

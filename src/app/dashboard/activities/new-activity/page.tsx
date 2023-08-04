@@ -88,9 +88,9 @@ const newActivity: React.FC = () => {
                 {({ values, handleChange }) => (
                     <Form className={form.form}>
                         <div className={showOptional ? styles.hide : styles.show}>
-                            <label htmlFor="name">Name <ErrorMessage name="name" /></label>
+                            <label htmlFor="name">Activity Occurence <ErrorMessage name="name" /></label>
                             
-                            <Field as="select" name="name" id="name" value={values.name} onChange={handleChange}>
+                            <Field className={styles.select} as="select" name="name" id="name" value={values.name} onChange={handleChange}>
                                 <option value="" disabled>Please select a frequency</option>
                                 <option value="Spontaneous">Spontaneous</option>
                                 <option value="Daily">Daily</option>

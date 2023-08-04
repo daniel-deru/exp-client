@@ -1,7 +1,7 @@
 @use "@/styles/colors" as colors;
 
 .home section div button {
-    background-color: colors.$orange;
+    background-color: colors.$secondary;
     padding: 5px 1rem;
     border-radius: 5px;
     color: white;
@@ -57,6 +57,11 @@
     .shoppingList {
         width: 95%;
         margin: auto;
+    }
+
+    .home section div button {
+        font-size: 0.9em;
+        padding: 5px 0.5rem;
     }
 
 }

@@ -80,7 +80,7 @@ const activities = () => {
         <section className={styles.activities}>
             <div>
                 <span>Activities</span>
-                <button className="ml-2 bg-amber-500 text-white py-1 px-3 rounded-md"><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
+                <button className="ml-2 text-white py-1 px-3 rounded-md"><Link href={"/dashboard/activities/new-activity"}>Add New</Link></button>
             </div>
             <div >
                 {sortByDate(activities).map((displayList) => (
