@@ -5,10 +5,11 @@
     justify-content: space-between;
 }
 
-.itemForm div {
-    display: flex;
-    flex-direction: column;
-}
+// This makes the qty and price fields not want to be next to eachother in mobile
+// .itemForm div {
+//     display: flex;
+//     flex-direction: column;
+// }
 
 .itemForm div:nth-child(1){
     width: 40%; // Name
@@ -61,6 +62,11 @@
 
 .itemForm div select {
     cursor: pointer;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
 }
 
 @media screen and (max-width: 1000px) {
@@ -116,4 +122,9 @@
     .itemForm .paid {
         display: none;
     }
+
+    .itemForm div:nth-child(2) div:last-child {
+        margin-left: 10px;
+    }
+
 }

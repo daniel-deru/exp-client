@@ -71,7 +71,7 @@ const Signin = () => {
               </div>
             </div>
             <div>
-              <button className='bg-green-300 py-2 w-full'>Sign In</button>
+              <button className='py-2 w-full'>Sign In</button>
               <div>{error}</div>
             </div>
           </Form>

@@ -4,6 +4,10 @@
     width: 80vw;
 }
 
+.activity button {
+    background-color: colors.$secondary;
+}
+
 .itemList {
     margin-right: 1rem;
     overflow-y: scroll;

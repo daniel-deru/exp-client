@@ -44,6 +44,7 @@ const activities = () => {
         return statusOrder[a.status] - statusOrder[b.status]
     }
 
+    // Sort the activities by date either start/finish date or date of creation
     function sortByDate(activities: Activity[]): [string, Activity[]][] {
         const activityDisplayList: { [key: string]: Activity[] } = {}
         const currentYear = new Date().getFullYear()

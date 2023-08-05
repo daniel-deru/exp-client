@@ -88,19 +88,18 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
     <div key={activity.id}  className={`border-slate-300 border-solid border-2 rounded-md cursor-pointer hover:border-sky-700`}>
         <div onClick={() => goToActivityPage(activity.id)}>
             <div className={styles.name}>{activity.name}</div>
+            <div>{new Date(activity.createdAt).getDate()}</div>
             <div className={`${styles.status} ${statusColor(activity.status)} flex items-center`}>
-              <div className="w-20">{activity.status}</div>
-              
+              <div className="w-20">{activity.status}</div>           
               <div className={`ml-2 ${statusColor(activity.status)}`}>
                 {activity.status === "Active" && <BiPlay  />}
                 {activity.status === "Finished" && <BiCheck />}
                 {activity.status === "Pending" && <BiHourglass size={15} />}
-              </div>
-             
+              </div>     
             </div>
-            <div className={styles.items}>{activity.items?.length || 0}</div>
             <div>{activityTotal(activity)}</div>
         </div>
+
         <div className={styles.buttonContainer}>
             <button className="text-sky-700" onClick={() => startActivity(activity)}>
                 <span className={`${styles.mobile} ${activity.status === "Active" ? styles.statusActive : styles.statusPending} mr-2`}>

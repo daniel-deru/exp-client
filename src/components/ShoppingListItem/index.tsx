@@ -5,6 +5,7 @@ import { removeItem, addItem, selectShoppingListSelected } from '@/store/slices/
 import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 import { FaRegTimesCircle } from "react-icons/fa"
 import { call } from '@/utils/call'
+import styles from "./styles.module.scss"
 
 interface Props {
     item: Item
@@ -45,12 +46,12 @@ const ShoppingListItem: React.FC<Props> = ({ item }) => {
     }, [])
 
     return (
-        <li key={item.id} className={`rounded shadow my-3 p-1 flex justify-between ${selected ? "bg-sky-100" : ""}`}>
-            <div className='w-2/5'>
+        <li key={item.id} className={`${styles.listItem} rounded shadow my-3 p-1 flex justify-between ${selected ? "bg-sky-100" : ""}`}>
+            <div className={styles.name}>
                 <input checked={selected} type="checkbox" onChange={() => checkboxHandler()} className='mx-2 cursor-pointer'/>
                 <span>{item.name}</span>
             </div>
-            <div className='w-1/5'>Price: {item.price || "Not Set"}</div>
+            <div className={styles.price}>Price: {item.price || "Not Set"}</div>
             <div className='w-1/5'>Qty: {item.quantity}</div>
             <div className="text-red-500 text-xl"><button onClick={() => deleteItem()}><FaRegTimesCircle /></button></div>
         </li>

@@ -80,7 +80,7 @@ const activityPage: React.FC = () => {
 
                 {activity.status !== "Finished" && 
                     <button 
-                        className="bg-red-500 text-white py-1 px-3 rounded-md" 
+                        className="text-white py-1 px-3 rounded-md" 
                         onClick={() => startActivity()}
                     >
                         {activity.startTime ? "Continue" : "Start"}

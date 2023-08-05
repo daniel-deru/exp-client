@@ -5,6 +5,7 @@ import { call } from '@/utils/call'
 import { deleteShoppingItem } from '@/store/slices/shoppingItemSlice'
 import { selectActivities, updateActivity } from '@/store/slices/activitySlice'
 import fetchActivities from '@/utils/fetchActivities'
+import styles from "./chooseActivity.module.scss"
 
 import ModalWrapper from '../ModalWrapper'
 import { selectShoppingListSelected, clearSelected } from '@/store/slices/shoppingListSelected'
@@ -64,22 +65,22 @@ const ChooseActivityModal: React.FC<Props> = ({ showModal, setShowModal }) => {
 
     return (
         <ModalWrapper showModal={showModal}>
-            <div className="w-1/2 mx-auto rounded-lg bg-white my-20 p-4">
+            <div className={`${styles.chooseContainer} w-1/2 mx-auto rounded-lg bg-white my-20 p-4`}>
                 <h1 className="text-center">Please Choose An Activity</h1>
                 <div>
                     {activities.map((activity: Activity, index: number) => (
                         <div 
                             key={activity.id}
-                            className={`flex justify-between p-1 my-3 rounded-md shadow shadow-slate-300 hover:cursor-pointer ${activity.id === selectedActivity?.id ? "bg-sky-300" : ""}`}
+                            className={`${styles.activityContainer} flex justify-between p-1 my-3 rounded-md shadow shadow-slate-300 hover:cursor-pointer ${activity.id === selectedActivity?.id ? styles.selected : ""}`}
                             onClick={() => setSelectedActivity(activity)}    
                         >
                             <div className='w-1/3 truncate'>{activity.name}</div>
-                            <div className='w-1/3'>{activity.venue}</div>
-                            <div className='w-1/3'>{activity.datePlanned && new Date(activity.datePlanned).toDateString()}</div>
+                            <div className='w-1/3 text-center'>{activity?.items.length || 0}</div>
+                            <div className='w-1/3'>{new Date(activity.createdAt).toDateString()}</div>
                         </div>
                     ))}
                 </div>
-                <button className="bg-sky-500 text-white rounded-md py-1 px-3 mx-auto block my-3" onClick={() => addToActivity()}>Select</button>
+                <button className="text-white rounded-md py-1 px-3 mx-auto block my-3" onClick={() => addToActivity()}>Select</button>
             </div>
         </ModalWrapper>
     )

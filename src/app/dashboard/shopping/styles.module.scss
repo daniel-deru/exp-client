@@ -11,9 +11,26 @@
     overflow-y: auto;
 }
 
+.primary {
+    background-color: colors.$primary;
+    color: white;
+}
+
+.secondary {
+    background-color: colors.$secondary;
+    color: white;
+}
+
 @media screen and (max-width: 500px) {
     .shoppingList {
         width: 75vw;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .shoppingList {
+        width: 90vw;
         margin: auto;
     }
 }

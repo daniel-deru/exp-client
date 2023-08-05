@@ -1,3 +1,5 @@
+@use "@/styles/colors" as colors;
+
 .signup {
     height: 80vh;
     padding-top: 2rem;
@@ -36,9 +38,14 @@
         background-color: transparent;
     
         &:focus {
-            border-bottom: 2px solid rgb(134 239 172);
+            border-bottom: 2px solid colors.$primary;
         }
     }
+}
+
+.signup button {
+    background-color: colors.$primary;
+    color: white;
 }
 
 @media screen and (max-width: 1200px) {

@@ -65,8 +65,8 @@ const shopping = () => {
           <div><b>Total: </b>{sumItems(shoppingItems)}</div>
         </div>
         <div>
-          <button className="bg-sky-700 text-white my-2 py-1 px-3 rounded-md" onClick={() => addToActivity()}>Add To Activity</button>
-          <button className="bg-amber-500 text-white m-2 py-1 px-3 rounded-md" onClick={() => newActivity()}>Create Activity</button>
+          <button className={`${styles.primary} my-2 py-1 px-3 rounded-md`} onClick={() => addToActivity()}>Add To Activity</button>
+          <button className={`${styles.secondary} m-2 py-1 px-3 rounded-md`} onClick={() => newActivity()}>Create Activity</button>
         </div>
 
         <ItemForm />

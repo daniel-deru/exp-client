@@ -5,6 +5,25 @@
     justify-content: space-between;
 }
 
+.name, .price {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
 .selected {
     background-color: colors.$blue-xlight;
+}
+
+@media screen and (max-width: 450px){
+    .listItem {
+        padding: 10px;
+    }
+
+    .name {
+        width: 30%;
+    }
+    .price {
+        width: 30%;
+    }
 }

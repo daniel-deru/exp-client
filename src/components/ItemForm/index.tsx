@@ -76,14 +76,17 @@ const ItemForm: React.FC<Props> = ({ activity }) => {
                             <div className='flex'>Name <ErrorMessage name='name'/></div>
                             <Field name="name" value={values.name} onChange={handleChange} innerRef={nameFieldRef}/>
                         </div>
-                        <div>
-                            <div>Price</div>
-                            <Field name="price" value={values.price} onChange={handleChange} min={0}/>
+                        <div className={styles.flex}>
+                            <div>
+                                <div>Price</div>
+                                <Field name="price" value={values.price} onChange={handleChange} min={0}/>
+                            </div>
+                            <div>
+                                <div>Quantity</div>
+                                <Field name="quantity" type="number" min={0} value={values.quantity} onChange={handleChange}/>
+                            </div>
                         </div>
-                        <div>
-                            <div>Quantity</div>
-                            <Field name="quantity" type="number" min={0} value={values.quantity} onChange={handleChange}/>
-                        </div>
+                       
                         <div>
                             <div></div>
                             <button type='submit'>Add</button>
