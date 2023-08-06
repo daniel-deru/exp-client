@@ -8,6 +8,7 @@ import styles from "./styles.module.scss"
 import { BiPlay, BiCheck, BiHourglass } from "react-icons/bi"
 import { MdDelete, MdOutlineDelete } from "react-icons/md"
 import { VscDebugContinue, VscDebugStart } from "react-icons/vsc"
+import startActivity from "@/shared/startActivity"
 
 
 interface IProps {
@@ -43,26 +44,15 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
     }
   }
 
-  async function startActivity(activity: Activity | undefined){
-      const startedActivity = getCookie<Activity>("activeActivity")
+  async function startActivityCallback(activity: Activity | undefined){
 
-      if(!activity) return alert("No activity Found!")
+    if(!activity) return alert("There is no activity")
+    if(activity.status === "Finished") return alert("This activity has already been finished")
 
-      const validActivity = validStartActivity(activity, startedActivity)
+    // Make the necessary API Calls and validation checks
+    await startActivity(activity, dispatch)
 
-      if(validActivity.error) return alert(validActivity.message)
-
-      // // The current activity has not been started yet - call the API to start activity
-      if(!activity.startTime){
-          const response = await call<Activity>(`/activity/start/${activity.id}`, "POST")
-
-          if(response.error) return alert("Activity could not be started.")
-          // Set the current activity as the active activity.
-          setCookie("activeActivity", JSON.stringify(activity), "30d")
-          dispatch(updateActivity(response.data))
-      }
-
-      router.push(`${pathname}/${activity.id}/start`)
+    router.push(`${pathname}/${activity?.id}/start`)
   }
 
   // Create a tailwind class to reflect correct color based on Status of Activity
@@ -89,6 +79,7 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
         <div onClick={() => goToActivityPage(activity.id)}>
             <div className={styles.name}>{activity.name}</div>
             <div>{new Date(activity.createdAt).getDate()}</div>
+            <div>{activityTotal(activity)}</div>
             <div className={`${styles.status} ${statusColor(activity.status)} flex items-center`}>
               <div className="w-20">{activity.status}</div>           
               <div className={`ml-2 ${statusColor(activity.status)}`}>
@@ -97,11 +88,11 @@ const ActivityPageListItem: React.FC<IProps> = ({ activity }) => {
                 {activity.status === "Pending" && <BiHourglass size={15} />}
               </div>     
             </div>
-            <div>{activityTotal(activity)}</div>
+            
         </div>
 
         <div className={styles.buttonContainer}>
-            <button className="text-sky-700" onClick={() => startActivity(activity)}>
+            <button className="text-sky-700" onClick={() => startActivityCallback(activity)}>
                 <span className={`${styles.mobile} ${activity.status === "Active" ? styles.statusActive : styles.statusPending} mr-2`}>
                   {activity.status === "Active" ? <VscDebugContinue/> : <VscDebugStart />}
                 </span>

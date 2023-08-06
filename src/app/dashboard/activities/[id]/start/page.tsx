@@ -103,6 +103,9 @@ const activityStart = () => {
                 item={currentItem}
             />
             <h1>{currentActivity?.name}</h1>
+            <div>
+                <button onClick={() => completePressed()}>Complete</button>
+            </div>
             <ul className="w-full">
                 {[...items].sort((a) => a.completed ? 1 : -1).map((item) => (
                     <li className={`w-full flex justify-between ${item.completed ? styles.completed : ""}`} key={item.id}>
@@ -115,9 +118,7 @@ const activityStart = () => {
                     </li>
                 ))}
             </ul>
-            <div>
-                <button onClick={() => completePressed()}>Complete</button>
-            </div>
+
         </section>
     )
 }

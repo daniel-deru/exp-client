@@ -26,11 +26,12 @@ html, body {
   overflow-x: hidden;
   font-family: 'Arial';
   overflow-y: hidden;
+  position: relative;
+  min-height: 100vh;
 }
 
 @media screen and (max-width: 450px) {
   html, body {
     font-size: 1.1em;
-    overflow-x: hidden;
   }
 }

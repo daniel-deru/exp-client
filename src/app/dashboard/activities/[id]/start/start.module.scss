@@ -10,6 +10,14 @@
     margin-top: 1rem;
 }
 
+.start button {
+    background-color: colors.$primary;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
 .start .completed {
     text-decoration: line-through;
     border-bottom: 2px solid colors.$gray-xlight;

@@ -2,6 +2,7 @@
 
 import DashboardNav from '@/components/DashboardNav/DashboardNav'
 import Header from '@/components/Header/Header'
+import styles from "./dashboard.module.scss"
 
 
 export default function RootLayout({
@@ -11,9 +12,9 @@ export default function RootLayout({
 }) {
 
   return (
-    <main >
+    <main>
         <Header />
-        <section className='w-full flex'>
+        <section className={styles.mainSection}>
             <DashboardNav />
             {children}
         </section>

@@ -2,18 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Activity, deleteActivity, selectActivities, updateActivity } from '@/store/slices/activitySlice'
+import { Activity, selectActivities } from '@/store/slices/activitySlice'
 import styles from "./style.module.scss"
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { call } from '@/utils/call'
-import validStartActivity from '@/utils/startActivityCheck'
 import sumItems from '@/utils/calc/sum'
-
+import startActivity from '@/shared/startActivity'
 import ItemForm from '@/components/ItemForm'
 import ItemList from '@/components/ItemList'
-import Link from 'next/link'
 import fetchActivities from '@/utils/fetchActivities'
-import { setCookie, getCookie } from '@/utils/cookie'
 import { useRouter } from 'next/navigation'
 
 const activityPage: React.FC = () => {
@@ -35,26 +31,13 @@ const activityPage: React.FC = () => {
         return activity
     }
 
-    // Start the activity if all the necessary conditions are met.
-    async function startActivity(){
-        const startedActivity = getCookie<Activity>("activeActivity")
-        if(!activity) return alert("No activity is selected!")
-
-        const validActivity = validStartActivity(activity, startedActivity)
-
-        if(validActivity.error) return alert(validActivity.message)
-
-        // The current activity has not been started yet - call the API to start activity
-        if(!activity.startTime){
-            const response = await call(`/activity/start/${activity.id}`, "POST")
-
-            if(response.error) return alert("Activity could not be started.")
-
-            // Set the current activity as the active activity.
-            setCookie("activeActivity", JSON.stringify(activity), "30d")
-            dispatch(updateActivity(response.data))
-        }
-
+    async function startActivityCallback(activity: Activity | undefined){
+        if(!activity) return alert("There is no activity")
+        if(activity.status === "Finished") return alert("This activity has already been finished")
+    
+        // Make the necessary API Calls and validation checks
+        await startActivity(activity, dispatch)
+    
         router.push(pathname + "/start")
     }
 
@@ -81,7 +64,7 @@ const activityPage: React.FC = () => {
                 {activity.status !== "Finished" && 
                     <button 
                         className="text-white py-1 px-3 rounded-md" 
-                        onClick={() => startActivity()}
+                        onClick={() => startActivityCallback(activity)}
                     >
                         {activity.startTime ? "Continue" : "Start"}
                     </button>

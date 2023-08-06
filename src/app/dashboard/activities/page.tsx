@@ -7,6 +7,7 @@ import Link from "next/link"
 import fetchActivities from "@/utils/fetchActivities"
 import { useEffect } from "react"
 import ActivityPageListItem from "@/components/ActivityPageListItem/ActivityPageListItem"
+import { getCookie } from "@/utils/cookie"
 
 const statusOrder = {
     "Active": 0,
@@ -49,6 +50,7 @@ const activities = () => {
         const activityDisplayList: { [key: string]: Activity[] } = {}
         const currentYear = new Date().getFullYear()
 
+        // Check if the activities are from the current year
         const filteredActivities = activities.filter(activity => {
             const activityYear = new Date(activity.createdAt).getFullYear()
             return activityYear === currentYear
@@ -68,7 +70,7 @@ const activities = () => {
             }
         }
 
-        const sortByMonth = (a: [string, Activity[]], b: [string, Activity[]]) => monthOrder[a[0]] - monthOrder[b[0]]
+        const sortByMonth = (a: [string, Activity[]], b: [string, Activity[]]) => monthOrder[b[0]] - monthOrder[a[0]]
 
         return Object.entries(activityDisplayList).sort(sortByMonth)
     }
